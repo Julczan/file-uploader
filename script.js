@@ -1,4 +1,4 @@
-import { prisma } from "./lib/prisma.js";
+const { prisma } = require("./lib/prisma");
 
 async function main() {
   // Fetch all users
