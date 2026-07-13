@@ -3,39 +3,55 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <title>Register - Message Board</title>
   </head>
   <body>
-    <!DOCTYPE html>
-    <html lang="en">
-      <head>
-        <meta charset="UTF-8" />
-        <title>Sign Up</title>
-      </head>
-      <body>
-        <h1>Sign Up</h1>
-        <form action="/sign-up" method="POST">
-          <label for="username">Username</label>
-          <input
-            id="username"
-            name="username"
-            placeholder="username"
-            type="text"
-            required
-          />
-          <label for="email">Email</label>
-          <input
-            id="email"
-            name="email"
-            placeholder="email"
-            type="email"
-            required
-          />
-          <label for="password">Password</label>
-          <input id="password" name="password" type="password" required />
-          <button type="submit">Sign Up</button>
+    <main class="app-container">
+      <div class="form-container">
+        <h2 class="form-title">Register</h2>
+
+        <div class="form-errors"><%- include("partials/errors.ejs") %></div>
+
+        <form action="/sign-up" method="post" class="auth-form">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              id="email"
+              name="email"
+              placeholder="email"
+              type="email"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required />
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">Confirm password</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn-submit">Submit</button>
         </form>
-      </body>
-    </html>
+
+        <p class="form-footer">
+          Already have an account? <a href="/log-in">Log in</a>
+        </p>
+      </div>
+    </main>
   </body>
 </html>
