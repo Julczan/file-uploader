@@ -1,7 +1,3 @@
 exports.indexPageGet = (req, res) => {
   res.render("index");
 };
-
-exports.uploadFileFormGet = (req, res) => {
-  res.render("uploadFileForm");
-};
