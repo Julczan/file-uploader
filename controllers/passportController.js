@@ -14,3 +14,12 @@ exports.signUpFormPost = async (req, res, next) => {
 exports.signUpFormGet = (req, res) => {
   res.render("signUpForm");
 };
+
+exports.logOut = (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+};

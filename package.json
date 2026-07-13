@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "dotenv": "^17.4.2",
+    "prettier-plugin-ejs": "^1.0.3",
     "prisma": "^7.8.0"
   }
 }

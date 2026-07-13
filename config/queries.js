@@ -16,3 +16,10 @@ exports.findUserByUsername = async (username) => {
   });
   return user;
 };
+
+exports.findUserById = async (id) => {
+  const user = await prisma.user.findUnique({
+    where: { id: id },
+  });
+  return user;
+};
