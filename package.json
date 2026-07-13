@@ -9,7 +9,10 @@
     "migrate": "npx prisma migrate dev",
     "generate": "npx prisma generate",
     "start": "node app.js",
-    "dev": "node --env-file-if-exists=.env --watch app.js"
+    "dev": "node --env-file-if-exists=.env --watch app.js",
+    "add": "git add .",
+    "commit": "git commit",
+    "git": "npm run add && npm run commit"
   },
   "repository": {
     "type": "git",

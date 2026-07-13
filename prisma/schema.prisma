@@ -12,16 +12,33 @@ datasource db {
   provider = "postgresql"
 }
 
-model User {
-  id       Int    @id @default(autoincrement())
-  username String @unique
-  email    String @unique
-  password String @db.VarChar(255)
-}
-
 model Session {
   id        String   @id
   sid       String   @unique
   data      String
   expiresAt DateTime
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  username String   @unique
+  email    String   @unique
+  password String   @db.VarChar(255)
+  folders  Folder[]
+}
+
+model Folder {
+  id       Int    @id @default(autoincrement())
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId Int
+  title    String @unique
+  files    File[]
+}
+
+model File {
+  id        Int      @id @default(autoincrement())
+  url       String
+  folder    Folder   @relation(fields: [folderId], references: [id])
+  folderId  Int
+  createdAt DateTime @default(now())
 }
