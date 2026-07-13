@@ -5,6 +5,7 @@ const passport = require("passport");
 const indexRouter = require("./routes/indexRouter");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 const { prisma } = require("./lib/prisma");
+const fileRouter = require("./routes/fileRouter");
 
 require("dotenv/config");
 require("./config/passport");
@@ -48,6 +49,8 @@ app.use((req, res, next) => {
 });
 
 app.use("/", indexRouter);
+
+app.use("/upload-file", fileRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);
