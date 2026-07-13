@@ -15,6 +15,17 @@ exports.signUpFormGet = (req, res) => {
   res.render("signUpForm");
 };
 
+exports.loginFormGet = (req, res, next) => {
+  res.render("loginForm", { messages: req.session.messages });
+  next();
+};
+
+exports.clearFailMessages = (req, res) => {
+  if (req.session.messages) {
+    req.session.messages = [];
+  }
+};
+
 exports.logOut = (req, res, next) => {
   req.logout((err) => {
     if (err) {

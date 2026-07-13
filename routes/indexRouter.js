@@ -5,10 +5,13 @@ const {
   signUpFormGet,
   signUpFormPost,
   logOut,
+  loginFormGet,
+  clearFailMessages,
 } = require("../controllers/passportController");
 
 const indexRouter = Router();
 
+indexRouter.get("/log-in", loginFormGet, clearFailMessages);
 indexRouter.post(
   "/log-in",
   passport.authenticate("local", {
