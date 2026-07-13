@@ -1,10 +1,6 @@
 const { prisma } = require("./lib/prisma");
 
-async function main() {
-  // Fetch all users
-  const allUsers = await prisma.user.findMany({});
-  console.log("All users:", JSON.stringify(allUsers, null, 2));
-}
+async function main() {}
 
 main()
   .then(async () => {
