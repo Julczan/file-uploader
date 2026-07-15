@@ -1,0 +1,24 @@
+<div>
+  <button popovertarget="my-dialog">Create folder</button>
+
+  <dialog id="my-dialog" popover>
+    <div class="form-container">
+      <h2 class="form-title">Create new Folder</h2>
+      <div class="form-errors"><%- include("errorMessages.ejs") %></div>
+      <form action="/folders/create" method="post" class="auth-form">
+        <div class="form-group">
+          <label for="folder">Folder title</label>
+          <input id="folder" name="folder" type="text" required />
+        </div>
+        <button type="submit" class="btn-submit">Create</button>
+        <button
+          popovertarget="my-dialog"
+          popovertargetaction="hide"
+          type="button"
+        >
+          Close
+        </button>
+      </form>
+    </div>
+  </dialog>
+</div>

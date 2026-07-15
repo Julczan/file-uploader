@@ -1,6 +1,14 @@
 const { prisma } = require("./lib/prisma");
 
-async function main() {}
+async function main() {
+  // await prisma.folder.create({
+  //   data: { title: "first folder", authorId: 3 },
+  // });
+  // await prisma.user.update({
+  //   where: { id: 4 },
+  //   data: { folders: { create: { title: "second folder" } } },
+  // });
+}
 
 main()
   .then(async () => {

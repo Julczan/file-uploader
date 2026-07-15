@@ -1,0 +1,9 @@
+<% if (locals.folders && folders.length !== 0) {%>
+<ul>
+  <% folders.forEach((folder) => { %>
+  <li><%= folder.title %></li>
+  <% }); %>
+</ul>
+<% }else{ %>
+No folders yet
+<% } %>
