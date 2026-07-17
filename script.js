@@ -8,6 +8,8 @@ async function main() {
   //   where: { id: 4 },
   //   data: { folders: { create: { title: "second folder" } } },
   // });
+
+  await prisma.folder.deleteMany();
 }
 
 main()
