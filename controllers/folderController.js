@@ -5,7 +5,11 @@ const {
 } = require("../config/folderQueries");
 
 exports.createFolderPost = async (req, res, next) => {
-  await createFolderDB(req.body.folder, req.user.id);
+  const { folderId } = req.params;
+  await createFolderDB(req.body.folder, req.user.id, Number(folderId));
+  if (folderId) {
+    res.redirect(`/folders/${folderId}`);
+  }
   res.redirect("/");
 };
 
@@ -17,6 +21,9 @@ exports.FolderListGet = async (req, res, next) => {
 exports.getItemsInFolder = async (req, res, next) => {
   const { folderId } = req.params;
   const folderItems = await getItemsInFolderDB(Number(folderId));
-  console.log(folderItems);
-  res.render("folders", { folders: folderItems.childFolders });
+
+  res.render("folders", {
+    folders: folderItems.childFolders,
+    folderId: folderItems.id,
+  });
 };

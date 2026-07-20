@@ -1,8 +1,8 @@
 const { prisma } = require("../lib/prisma");
 
-exports.createFolderDB = async (title, authorId) => {
+exports.createFolderDB = async (title, authorId, parentId) => {
   await prisma.folder.create({
-    data: { title: title, authorId: authorId },
+    data: { title: title, authorId: authorId, parentFolderId: parentId },
   });
 };
 

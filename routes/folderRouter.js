@@ -10,6 +10,6 @@ const folderRouter = Router();
 
 folderRouter.get("/", isAuth, FolderListGet);
 folderRouter.get("/:folderId", getItemsInFolder);
-folderRouter.post("/create", isAuth, createFolderPost);
+folderRouter.post("/create/{:folderId}", isAuth, createFolderPost);
 
 module.exports = folderRouter;
