@@ -7,6 +7,18 @@ exports.createFolderDB = async (title, authorId) => {
 };
 
 exports.getAllFoldersDB = async () => {
-  const folders = await prisma.folder.findMany();
+  const folders = await prisma.folder.findMany({
+    where: {
+      parentFolder: null,
+    },
+  });
   return folders;
+};
+
+exports.getItemsInFolderDB = async (folderId) => {
+  const folderItems = await prisma.folder.findUnique({
+    where: { id: folderId },
+    include: { childFolders: true, files: true },
+  });
+  return folderItems;
 };

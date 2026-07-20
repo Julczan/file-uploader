@@ -1,5 +1,8 @@
-const { createFolderDB, getAllFoldersDB } = require("../config/folderQueries");
-const { getItemsInFolderDB } = require("../config/queries");
+const {
+  createFolderDB,
+  getAllFoldersDB,
+  getItemsInFolderDB,
+} = require("../config/folderQueries");
 
 exports.createFolderPost = async (req, res, next) => {
   await createFolderDB(req.body.folder, req.user.id);
@@ -15,4 +18,5 @@ exports.getItemsInFolder = async (req, res, next) => {
   const { folderId } = req.params;
   const folderItems = await getItemsInFolderDB(Number(folderId));
   console.log(folderItems);
+  res.render("folders", { folders: folderItems.childFolders });
 };

@@ -30,11 +30,3 @@ exports.findUserByEmail = async (email) => {
   });
   return user;
 };
-
-exports.getItemsInFolderDB = async (folderId) => {
-  const folderItems = await prisma.folder.findUnique({
-    where: { id: folderId },
-    include: { childFolders: true, files: true },
-  });
-  return folderItems;
-};
