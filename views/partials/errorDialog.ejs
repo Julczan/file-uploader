@@ -1,0 +1,14 @@
+<% if (locals.errors) {%>
+<div>
+  <dialog open id="error-dialog">
+    <ul>
+      <% errors.forEach(function(error) { %>
+      <li><%= error.msg %></li>
+      <% }); %>
+    </ul>
+    <form method="dialog">
+      <button>OK</button>
+    </form>
+  </dialog>
+</div>
+<% } %>
