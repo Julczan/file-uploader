@@ -18,6 +18,7 @@ exports.getAllFoldersDB = async () => {
     where: {
       parentFolder: null,
     },
+    orderBy: { title: "asc" },
   });
   return folders;
 };
