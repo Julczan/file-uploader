@@ -5,6 +5,7 @@ const {
   FolderListGet,
   getItemsInFolder,
   updateFolderPost,
+  deleteFolderPost,
 } = require("../controllers/folderController");
 
 const folderRouter = Router();
@@ -16,6 +17,11 @@ folderRouter.post(
   "/:folderId/update/{:openedFolderId}",
   isAuth,
   updateFolderPost,
+);
+folderRouter.post(
+  "/:folderId/delete/{:openedFolderId}",
+  isAuth,
+  deleteFolderPost,
 );
 
 module.exports = folderRouter;

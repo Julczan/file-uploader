@@ -33,7 +33,7 @@ model Folder {
   authorId       Int
   title          String   @unique
   parentFolderId Int?
-  parentFolder   Folder?  @relation("ParentChild", fields: [parentFolderId], references: [id])
+  parentFolder   Folder?  @relation("ParentChild", fields: [parentFolderId], references: [id], onDelete: Cascade)
   childFolders   Folder[] @relation("ParentChild")
   files          File[]
 }

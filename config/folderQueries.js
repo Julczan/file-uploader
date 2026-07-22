@@ -30,3 +30,9 @@ exports.getItemsInFolderDB = async (folderId) => {
   });
   return folderItems;
 };
+
+exports.deleteFolderDB = async (folderId) => {
+  await prisma.folder.delete({
+    where: { id: folderId },
+  });
+};

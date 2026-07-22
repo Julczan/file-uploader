@@ -3,6 +3,7 @@ const {
   getAllFoldersDB,
   getItemsInFolderDB,
   updateFolderDB,
+  deleteFolderDB,
 } = require("../config/folderQueries");
 
 const { body, validationResult, matchedData } = require("express-validator");
@@ -80,6 +81,16 @@ exports.updateFolderPost = [
     res.redirect("/folders");
   },
 ];
+
+exports.deleteFolderPost = async (req, res, next) => {
+  const { openedFolderId, folderId } = req.params;
+  await deleteFolderDB(Number(folderId));
+
+  if (openedFolderId) {
+    res.redirect(`/folders/${openedFolderId}`);
+  }
+  res.redirect("/folders");
+};
 
 exports.FolderListGet = async (req, res, next) => {
   const folders = await getAllFoldersDB();
