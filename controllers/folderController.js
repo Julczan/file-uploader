@@ -2,12 +2,13 @@ const {
   createFolderDB,
   getAllFoldersDB,
   getItemsInFolderDB,
+  updateFolderDB,
 } = require("../config/folderQueries");
 
 const { body, validationResult, matchedData } = require("express-validator");
 
 const validateFolder = [
-  body("folder")
+  body("folderTitle")
     .trim()
     .notEmpty()
     .withMessage("Folder Title can not be empty.")
@@ -19,14 +20,14 @@ exports.createFolderPost = [
   validateFolder,
   async (req, res, next) => {
     const errors = validationResult(req);
-    const { folderId } = req.params;
+    const { openedFolderId } = req.params;
     const folders = await getAllFoldersDB();
 
-    if (!errors.isEmpty() && folderId) {
-      const folderItems = await getItemsInFolderDB(Number(folderId));
+    if (!errors.isEmpty() && openedFolderId) {
+      const folderItems = await getItemsInFolderDB(Number(openedFolderId));
       return res.status(400).render("folders", {
         folders: folderItems.childFolders,
-        folderId: folderItems.id,
+        openedFolderId: folderItems.id,
         errors: errors.array(),
       });
     }
@@ -38,10 +39,43 @@ exports.createFolderPost = [
       });
     }
 
-    const { folder } = matchedData(req);
-    await createFolderDB(folder, req.user.id, Number(folderId));
-    if (folderId) {
-      res.redirect(`/folders/${folderId}`);
+    const { folderTitle } = matchedData(req);
+    await createFolderDB(folderTitle, req.user.id, Number(openedFolderId));
+    if (openedFolderId) {
+      res.redirect(`/folders/${openedFolderId}`);
+    }
+    res.redirect("/folders");
+  },
+];
+
+exports.updateFolderPost = [
+  validateFolder,
+  async (req, res, next) => {
+    const errors = validationResult(req);
+    const { openedFolderId, folderId } = req.params;
+    const folders = await getAllFoldersDB();
+
+    if (!errors.isEmpty() && openedFolderId) {
+      const folderItems = await getItemsInFolderDB(Number(openedFolderId));
+      return res.status(400).render("folders", {
+        folders: folderItems.childFolders,
+        openedFolderId: folderItems.id,
+        errors: errors.array(),
+      });
+    }
+
+    if (!errors.isEmpty()) {
+      return res.status(400).render("index", {
+        errors: errors.array(),
+        folders: folders,
+      });
+    }
+
+    const { folderTitle } = matchedData(req);
+    await updateFolderDB(folderTitle, Number(folderId));
+
+    if (openedFolderId) {
+      res.redirect(`/folders/${openedFolderId}`);
     }
     res.redirect("/folders");
   },
@@ -53,11 +87,11 @@ exports.FolderListGet = async (req, res, next) => {
 };
 
 exports.getItemsInFolder = async (req, res, next) => {
-  const { folderId } = req.params;
-  const folderItems = await getItemsInFolderDB(Number(folderId));
+  const { openedFolderId } = req.params;
+  const folderItems = await getItemsInFolderDB(Number(openedFolderId));
 
   res.render("folders", {
     folders: folderItems.childFolders,
-    folderId: folderItems.id,
+    openedFolderId: folderItems.id,
   });
 };

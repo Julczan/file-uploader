@@ -3,9 +3,45 @@
   <% folders.forEach((folder) => { %>
   <li>
     <a href="/folders/<%= folder.id %>"> <%= folder.title %></a>
+    <div>
+      <button popovertarget="folder-dialog <%= folder.id %>">
+        Update folder
+      </button>
+    </div>
   </li>
+  <dialog id="folder-dialog <%= folder.id %>" popover>
+    <div class="form-container">
+      <h2 class="form-title">Update <%= folder.title %></h2>
+      <div class="form-errors"><%- include("errorMessages.ejs") %></div>
+      <form
+        action="/folders/<%= folder.id %>/update/<%= locals.openedFolderId %>"
+        method="post"
+        class="auth-form"
+      >
+        <div class="form-group">
+          <label for="folderTitle">Folder title</label>
+          <input
+            id="folderTitle"
+            name="folderTitle"
+            type="text"
+            value="<%= folder.title %>"
+            required
+          />
+        </div>
+        <button type="submit" class="btn-submit">Update</button>
+        <button
+          popovertarget="folder-dialog <%= folder.id %>"
+          popovertargetaction="hide"
+          type="button"
+        >
+          Close
+        </button>
+      </form>
+    </div>
+  </dialog>
   <% }); %>
 </ul>
+
 <% }else{ %>
 No folders yet
 <% } %>

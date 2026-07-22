@@ -6,6 +6,13 @@ exports.createFolderDB = async (title, authorId, parentId) => {
   });
 };
 
+exports.updateFolderDB = async (newTitle, folderId) => {
+  await prisma.folder.update({
+    where: { id: folderId },
+    data: { title: newTitle },
+  });
+};
+
 exports.getAllFoldersDB = async () => {
   const folders = await prisma.folder.findMany({
     where: {
