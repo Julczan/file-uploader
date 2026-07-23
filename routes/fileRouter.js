@@ -3,12 +3,15 @@ const { isAuth } = require("./authMiddleware");
 const {
   uploadFileFormGet,
   uploadFileFormPost,
+  fileDetailsGet,
 } = require("../controllers/fileController");
 
 const fileRouter = Router();
 
-fileRouter.get("/", isAuth, uploadFileFormGet);
+fileRouter.get("/upload", isAuth, uploadFileFormGet);
 
-fileRouter.post("/", uploadFileFormPost);
+fileRouter.post("/upload", uploadFileFormPost);
+
+fileRouter.get("/:fileId", fileDetailsGet);
 
 module.exports = fileRouter;

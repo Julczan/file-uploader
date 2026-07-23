@@ -12,3 +12,7 @@ exports.uploadFileFormPost = [
     res.redirect("/");
   },
 ];
+
+exports.fileDetailsGet = async (req, res, next) => {
+  res.render("fileDetails");
+};

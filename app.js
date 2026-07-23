@@ -51,7 +51,7 @@ app.use((req, res, next) => {
 
 app.use("/", indexRouter);
 
-app.use("/upload-file", fileRouter);
+app.use("/files", fileRouter);
 
 app.use("/folders", folderRouter);
 
