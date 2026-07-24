@@ -10,8 +10,7 @@ exports.uploadFile = async (filePath, fileName, folderName) => {
       use_filename: true,
       overwrite: true,
     });
-    console.log(result);
-    return result.public_id;
+    return result;
   } catch (error) {
     console.error(error);
   }
