@@ -1,0 +1,33 @@
+<div>
+  <button popovertarget="upload-file-dialog">Upload file</button>
+
+  <dialog id="upload-file-dialog" popover>
+    <div class="form-container">
+      <h2 class="form-title">Create new Folder</h2>
+      <div class="form-errors"><%- include("errorMessages.ejs") %></div>
+      <form
+        action="/files/upload/<%= locals.openedFolderId %>"
+        method="POST"
+        class="auth-form"
+        enctype="multipart/form-data"
+      >
+        <div class="form-group">
+          <label for="file">File</label>
+          <input id="file" name="file" type="file" required />
+        </div>
+        <div class="form-group">
+          <label for="fileName">Name</label>
+          <input id="fileName" name="fileName" type="text" required />
+        </div>
+        <button type="submit" class="btn-submit">Upload</button>
+        <button
+          popovertarget="upload-file-dialog"
+          popovertargetaction="hide"
+          type="button"
+        >
+          Close
+        </button>
+      </form>
+    </div>
+  </dialog>
+</div>

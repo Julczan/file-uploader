@@ -13,18 +13,6 @@
         <div class="form-errors">
           <%- include("partials/errorMessages.ejs") %>
         </div>
-        <form
-          action="/upload-file"
-          method="POST"
-          class="auth-form"
-          enctype="multipart/form-data"
-        >
-          <div class="form-group">
-            <label for="file">File</label>
-            <input id="file" name="file" type="file" required />
-          </div>
-          <button type="submit" class="btn-submit">Upload</button>
-        </form>
       </div>
     </main>
   </body>
