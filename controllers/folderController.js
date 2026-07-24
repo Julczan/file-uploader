@@ -1,3 +1,4 @@
+const { getAllFilesDB } = require("../config/fileQueries");
 const {
   createFolderDB,
   getAllFoldersDB,
@@ -93,8 +94,10 @@ exports.deleteFolderPost = async (req, res, next) => {
 };
 
 exports.FolderListGet = async (req, res, next) => {
-  const folders = await getAllFoldersDB();
-  res.render("folders", { folders: folders });
+  const folders = await getAllFoldersDB(req.user.id);
+  const files = await getAllFilesDB(req.user.id);
+
+  res.render("folders", { folders: folders, files: files });
 };
 
 exports.getItemsInFolder = async (req, res, next) => {

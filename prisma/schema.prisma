@@ -44,6 +44,7 @@ model File {
   author    User     @relation(fields: [authorId], references: [id])
   authorId  Int
   url       String
+  name      String
   folder    Folder?  @relation(fields: [folderId], references: [id])
   folderId  Int?
   createdAt DateTime @default(now())

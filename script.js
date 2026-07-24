@@ -18,7 +18,7 @@ async function main() {
   //   data: { folders: { create: { title: "second folder" } } },
   // });
 
-  await prisma.folder.deleteMany();
+  await prisma.file.deleteMany();
 }
 
 main()

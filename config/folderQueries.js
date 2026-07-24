@@ -13,10 +13,11 @@ exports.updateFolderDB = async (newTitle, folderId) => {
   });
 };
 
-exports.getAllFoldersDB = async () => {
+exports.getAllFoldersDB = async (authorId) => {
   const folders = await prisma.folder.findMany({
     where: {
       parentFolder: null,
+      authorId: authorId,
     },
     orderBy: { title: "asc" },
   });

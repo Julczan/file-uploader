@@ -2,7 +2,7 @@ const multer = require("multer");
 const multerUploads = require("../config/multer");
 const { dataUri } = require("../config/dataUri");
 const { uploadFile } = require("../config/cloudinary");
-const { uploadFileDB } = require("../config/fileQueries");
+const { uploadFileDB, getAllFilesDB } = require("../config/fileQueries");
 const upload = multer({ dest: "uploads/" });
 
 exports.uploadFileFormGet = (req, res) => {
@@ -24,12 +24,17 @@ exports.uploadFileFormPost = [
         req.user.username,
       );
 
+      console.log(result);
+
       await uploadFileDB(
         req.user.id,
         Number(req.params.openedFolderId),
         result.secure_url,
+        result.display_name,
       );
     }
     res.redirect("/");
   },
 ];
+
+exports.getAllFiles = async (req, res, next) => {};

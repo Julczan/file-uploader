@@ -15,3 +15,8 @@ exports.uploadFile = async (filePath, fileName, folderName) => {
     console.error(error);
   }
 };
+
+exports.getFileDetials = async (fileName) => {
+  const result = await cloudinary.api.resource(fileName);
+  return result;
+};
