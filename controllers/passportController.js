@@ -56,7 +56,7 @@ exports.signUpFormPost = [
 
     await createUser(username, email, hashedPassword);
 
-    res.redirect("/");
+    res.redirect("/log-in");
   },
 ];
 

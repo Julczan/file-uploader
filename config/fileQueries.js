@@ -20,3 +20,10 @@ exports.getAllFilesDB = async (authorId) => {
   });
   return files;
 };
+
+exports.getFileDetailsDB = async (fileId) => {
+  const file = await prisma.file.findUnique({
+    where: { id: fileId },
+  });
+  return file;
+};

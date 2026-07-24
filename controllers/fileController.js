@@ -1,16 +1,32 @@
 const multer = require("multer");
 const multerUploads = require("../config/multer");
 const { dataUri } = require("../config/dataUri");
-const { uploadFile } = require("../config/cloudinary");
-const { uploadFileDB, getAllFilesDB } = require("../config/fileQueries");
+const {
+  uploadFile,
+  getFileDetialsCloud,
+  createImageTag,
+} = require("../config/cloudinary");
+const {
+  uploadFileDB,
+  getAllFilesDB,
+  getFileDetailsDB,
+} = require("../config/fileQueries");
+const { findUserById } = require("../config/queries");
 const upload = multer({ dest: "uploads/" });
 
 exports.uploadFileFormGet = (req, res) => {
   res.render("uploadFileForm");
 };
 
-exports.fileDetailsGet = async (req, res, next) => {
-  res.render("fileDetails");
+exports.getFileDetails = async (req, res, next) => {
+  const { fileId } = req.params;
+  const user = await findUserById(req.user.id);
+  const file = await getFileDetailsDB(Number(fileId));
+  const fileCloud = await getFileDetialsCloud(`${user.username}/${file.name}`);
+
+  const imageTag = createImageTag(`${user.username}/${file.name}`);
+
+  res.render("fileDetails", { file: fileCloud, imageTag: imageTag });
 };
 
 exports.uploadFileFormPost = [

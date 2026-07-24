@@ -8,14 +8,12 @@
   </head>
   <body>
     <main class="app-container">
-      <button>Download the file</button>
+      <a href="<%= locals.file.secure_url %>">Download the file</a>
       <div class="file-details">
-        <div class="detail">
-          File Image (if applicable, else display placeholder)
-        </div>
-        <div class="detail">File Name</div>
-        <div class="detail">File Size</div>
-        <div class="detail">Upload Time</div>
+        <img src="<%= locals.imageTag %>" alt="test" />
+        <div class="detail">File Name: <%= locals.file.display_name %></div>
+        <div class="detail">File Size: <%= locals.file.bytes %></div>
+        <div class="detail">Upload Time: <%= locals.file.created_at %></div>
       </div>
     </main>
   </body>

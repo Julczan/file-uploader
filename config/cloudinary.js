@@ -16,7 +16,15 @@ exports.uploadFile = async (filePath, fileName, folderName) => {
   }
 };
 
-exports.getFileDetials = async (fileName) => {
+exports.getFileDetialsCloud = async (fileName) => {
   const result = await cloudinary.api.resource(fileName);
   return result;
+};
+
+exports.createImageTag = (publicId) => {
+  let imageTag = cloudinary.url(publicId, {
+    transformation: [{ width: "auto", format: "auto", quality: "auto" }],
+  });
+
+  return imageTag;
 };
