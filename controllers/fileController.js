@@ -4,7 +4,8 @@ const { dataUri } = require("../config/dataUri");
 const {
   uploadFile,
   getFileDetialsCloud,
-  createImageTag,
+  createImageTagDetails,
+  createImageTagIcon,
 } = require("../config/cloudinary");
 const {
   uploadFileDB,
@@ -24,7 +25,7 @@ exports.getFileDetails = async (req, res, next) => {
   const file = await getFileDetailsDB(Number(fileId));
   const fileCloud = await getFileDetialsCloud(`${user.username}/${file.name}`);
 
-  const imageTag = createImageTag(`${user.username}/${file.name}`);
+  const imageTag = createImageTagDetails(`${user.username}/${file.name}`);
 
   res.render("fileDetails", { file: fileCloud, imageTag: imageTag });
 };
@@ -53,4 +54,11 @@ exports.uploadFileFormPost = [
   },
 ];
 
-exports.getAllFiles = async (req, res, next) => {};
+exports.getAllFiles = async (user) => {
+  const files = await getAllFilesDB(user.id);
+  files.forEach((file) => {
+    const imageTag = createImageTagIcon(`${user.username}/${file.name}`);
+    file.imageTag = imageTag;
+  });
+  return files;
+};
