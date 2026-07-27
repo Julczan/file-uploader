@@ -35,11 +35,9 @@ exports.uploadFileFormPost = [
   async (req, res) => {
     if (req.file) {
       const file = dataUri(req).content;
-      const result = await uploadFile(
-        file,
-        req.body.fileName,
-        req.user.username,
-      );
+      const fileName = req.body.fileName;
+      const userName = req.user.username;
+      const result = await uploadFile(file, fileName, userName);
 
       console.log(result);
 

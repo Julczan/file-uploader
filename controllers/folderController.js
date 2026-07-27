@@ -4,6 +4,9 @@ const {
   getItemsInFolderDB,
   updateFolderDB,
   deleteFolderDB,
+  getParentFolder,
+  getFolderAncestors,
+  getAllChildFoldersDB,
 } = require("../config/folderQueries");
 
 const { body, validationResult, matchedData } = require("express-validator");
@@ -106,6 +109,10 @@ exports.FolderListGet = async (req, res, next) => {
 exports.getItemsInFolder = async (req, res, next) => {
   const { openedFolderId } = req.params;
   const folderItems = await getItemsInFolderDB(Number(openedFolderId));
+
+  const childFolders = await getAllChildFoldersDB(openedFolderId);
+
+  console.log(childFolders);
 
   folderItems.files.forEach((file) => {
     const imageTag = createImageTagIcon(`${req.user.username}/${file.name}`);

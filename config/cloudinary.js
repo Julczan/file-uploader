@@ -1,9 +1,9 @@
 const cloudinary = require("cloudinary").v2;
 
-exports.uploadFile = async (filePath, fileName, folderName) => {
+exports.uploadFile = async (filePath, fileName, userName, folderName) => {
   try {
     const result = await cloudinary.uploader.upload(filePath, {
-      folder: folderName,
+      folder: `${userName}/${folderName}`,
       resource_type: "auto",
       public_id: fileName,
       unique_filename: true,
@@ -38,7 +38,7 @@ exports.createImageTagIcon = (publicId) => {
         width: "32",
         height: "32",
         format: "auto",
-        quality: "auto",
+        quality: "auto:low",
         crop: "auto",
       },
     ],
