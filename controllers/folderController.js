@@ -6,14 +6,21 @@ const {
   deleteFolderDB,
   getParentFolder,
   getFolderAncestors,
-  getAllChildFoldersDB,
+  getFolderAndAllChildFoldersDB,
   getFolderTitleByIdDB,
 } = require("../config/folderQueries");
 
 const { body, validationResult, matchedData } = require("express-validator");
 const { getAllFilesWithoutFolder } = require("./fileController");
 const { findUserById } = require("../config/queries");
-const { createImageTagIcon } = require("../config/cloudinary");
+const {
+  createImageTagIcon,
+  getAllAssetsInFolderCloud,
+  createFolderCloud,
+  deleteAssetsCloud,
+  deleteFolderCloud,
+} = require("../config/cloudinary");
+const { deleteFilesDB } = require("../config/fileQueries");
 
 const validateFolder = [
   body("folderTitle")
@@ -48,11 +55,15 @@ exports.createFolderPost = [
     }
 
     const { folderTitle } = matchedData(req);
+    const folderPath = `${req.user.username}/${folderTitle}`;
+    await createFolderCloud(folderPath);
     await createFolderDB(folderTitle, req.user.id, Number(openedFolderId));
+
     if (openedFolderId) {
       res.redirect(`/folders/${openedFolderId}`);
+    } else {
+      res.redirect("/folders");
     }
-    res.redirect("/folders");
   },
 ];
 
@@ -84,19 +95,40 @@ exports.updateFolderPost = [
 
     if (openedFolderId) {
       res.redirect(`/folders/${openedFolderId}`);
+    } else {
+      res.redirect("/folders");
     }
-    res.redirect("/folders");
   },
 ];
 
 exports.deleteFolderPost = async (req, res, next) => {
   const { openedFolderId, folderId } = req.params;
+  const folderAssetsArray = [];
+  const userName = req.user.username;
+  const folderWithChildFolders = await getFolderAndAllChildFoldersDB(folderId);
+
+  folderWithChildFolders.forEach(async function (folder) {
+    const assets = await getAllAssetsInFolderCloud(
+      `${req.user.username}/${folder.title}`,
+    );
+    assets.forEach(async function (asset) {
+      await deleteAssetsCloud(asset.public_id);
+    });
+
+    await deleteFolderCloud(`${req.user.username}/${folder.title}`);
+  });
+
+  folderWithChildFolders.forEach(async function (folder) {
+    await deleteFilesDB(folder.id);
+  });
+
   await deleteFolderDB(Number(folderId));
 
   if (openedFolderId) {
     res.redirect(`/folders/${openedFolderId}`);
+  } else {
+    res.redirect("/folders");
   }
-  res.redirect("/folders");
 };
 
 exports.FolderListGet = async (req, res, next) => {
@@ -112,7 +144,7 @@ exports.getItemsInFolder = async (req, res, next) => {
   const folderItems = await getItemsInFolderDB(Number(openedFolderId));
   const folderTitle = await getFolderTitleByIdDB(Number(openedFolderId));
 
-  const childFolders = await getAllChildFoldersDB(openedFolderId);
+  const childFolders = await getFolderAndAllChildFoldersDB(openedFolderId);
 
   folderItems.files.forEach((file) => {
     const imageTag = createImageTagIcon(

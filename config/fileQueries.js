@@ -37,3 +37,9 @@ exports.getFilesInFolderDB = async (authorId, folderId) => {
   });
   return files;
 };
+
+exports.deleteFilesDB = async (folderId) => {
+  await prisma.file.deleteMany({
+    where: { folderId: folderId },
+  });
+};

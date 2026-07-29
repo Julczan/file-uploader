@@ -19,6 +19,7 @@ async function main() {
   // });
 
   await prisma.file.deleteMany();
+  await prisma.folder.deleteMany();
 }
 
 main()

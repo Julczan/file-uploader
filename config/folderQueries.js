@@ -1,5 +1,8 @@
 const { prisma } = require("../lib/prisma");
-const { getAllChildFolders } = require("../generated/prisma/sql");
+const {
+  getAllChildFolders,
+  getFolderAndAllChildFolders,
+} = require("../generated/prisma/sql");
 
 exports.createFolderDB = async (title, authorId, parentId) => {
   await prisma.folder.create({
@@ -39,9 +42,9 @@ exports.deleteFolderDB = async (folderId) => {
   });
 };
 
-exports.getAllChildFoldersDB = async (folderId) => {
+exports.getFolderAndAllChildFoldersDB = async (folderId) => {
   const childFolders = await prisma.$queryRawTyped(
-    getAllChildFolders(folderId),
+    getFolderAndAllChildFolders(folderId),
   );
   return childFolders;
 };

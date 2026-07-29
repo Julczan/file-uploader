@@ -52,7 +52,20 @@ exports.createImageTagIcon = (publicId) => {
   return imageTag;
 };
 
+exports.createFolderCloud = async (folderPath) => {
+  await cloudinary.api.create_folder(folderPath);
+};
+
 exports.getAllAssetsInFolderCloud = async (folderTitle) => {
   const assets = await cloudinary.api.resources_by_asset_folder(folderTitle);
-  return assets;
+
+  return assets.resources;
+};
+
+exports.deleteAssetsCloud = async (publicIdsArray) => {
+  await cloudinary.api.delete_resources(publicIdsArray);
+};
+
+exports.deleteFolderCloud = async (folderPath) => {
+  await cloudinary.api.delete_folder(folderPath);
 };

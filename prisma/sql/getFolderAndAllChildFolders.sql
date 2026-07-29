@@ -13,4 +13,4 @@ WITH RECURSIVE parentFolder AS (
      "Folder" childFolder
     INNER JOIN parentFolder pf ON pf.id = childFolder."parentFolderId"
 ) 
-SELECT title FROM parentFolder;
+SELECT id, title FROM parentFolder;
