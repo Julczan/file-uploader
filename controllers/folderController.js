@@ -7,10 +7,11 @@ const {
   getParentFolder,
   getFolderAncestors,
   getAllChildFoldersDB,
+  getFolderTitleByIdDB,
 } = require("../config/folderQueries");
 
 const { body, validationResult, matchedData } = require("express-validator");
-const { getAllFiles } = require("./fileController");
+const { getAllFilesWithoutFolder } = require("./fileController");
 const { findUserById } = require("../config/queries");
 const { createImageTagIcon } = require("../config/cloudinary");
 
@@ -101,7 +102,7 @@ exports.deleteFolderPost = async (req, res, next) => {
 exports.FolderListGet = async (req, res, next) => {
   const folders = await getAllFoldersDB(req.user.id);
   const user = await findUserById(req.user.id);
-  const files = await getAllFiles(user);
+  const files = await getAllFilesWithoutFolder(user);
 
   res.render("folders", { folders: folders, files: files });
 };
@@ -109,13 +110,14 @@ exports.FolderListGet = async (req, res, next) => {
 exports.getItemsInFolder = async (req, res, next) => {
   const { openedFolderId } = req.params;
   const folderItems = await getItemsInFolderDB(Number(openedFolderId));
+  const folderTitle = await getFolderTitleByIdDB(Number(openedFolderId));
 
   const childFolders = await getAllChildFoldersDB(openedFolderId);
 
-  console.log(childFolders);
-
   folderItems.files.forEach((file) => {
-    const imageTag = createImageTagIcon(`${req.user.username}/${file.name}`);
+    const imageTag = createImageTagIcon(
+      `${req.user.username}/${folderTitle}/${file.name}`,
+    );
     file.imageTag = imageTag;
   });
 

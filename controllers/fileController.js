@@ -2,18 +2,18 @@ const multer = require("multer");
 const multerUploads = require("../config/multer");
 const { dataUri } = require("../config/dataUri");
 const {
-  uploadFile,
   getFileDetialsCloud,
   createImageTagDetails,
   createImageTagIcon,
+  uploadFileCloud,
 } = require("../config/cloudinary");
 const {
   uploadFileDB,
-  getAllFilesDB,
   getFileDetailsDB,
+  getFilesInFolderDB,
 } = require("../config/fileQueries");
 const { findUserById } = require("../config/queries");
-const upload = multer({ dest: "uploads/" });
+const { getFolderTitleByIdDB } = require("../config/folderQueries");
 
 exports.uploadFileFormGet = (req, res) => {
   res.render("uploadFileForm");
@@ -23,9 +23,21 @@ exports.getFileDetails = async (req, res, next) => {
   const { fileId } = req.params;
   const user = await findUserById(req.user.id);
   const file = await getFileDetailsDB(Number(fileId));
-  const fileCloud = await getFileDetialsCloud(`${user.username}/${file.name}`);
+  const folderId = file.folderId;
 
-  const imageTag = createImageTagDetails(`${user.username}/${file.name}`);
+  let folderTitle = "";
+
+  if (folderId) {
+    folderTitle = await getFolderTitleByIdDB(folderId);
+  }
+
+  const fileCloud = await getFileDetialsCloud(
+    `${user.username}/${folderTitle}/${file.name}`,
+  );
+
+  const imageTag = createImageTagDetails(
+    `${user.username}/${folderTitle}/${file.name}`,
+  );
 
   res.render("fileDetails", { file: fileCloud, imageTag: imageTag });
 };
@@ -33,27 +45,41 @@ exports.getFileDetails = async (req, res, next) => {
 exports.uploadFileFormPost = [
   multerUploads.single("file"),
   async (req, res) => {
+    const openedFolderId = Number(req.params.openedFolderId);
     if (req.file) {
-      const file = dataUri(req).content;
+      const filePath = dataUri(req).content;
+      let openedFolderTitle = "";
+      if (openedFolderId) {
+        openedFolderTitle = await getFolderTitleByIdDB(openedFolderId);
+      }
+
       const fileName = req.body.fileName;
       const userName = req.user.username;
-      const result = await uploadFile(file, fileName, userName);
+      const result = await uploadFileCloud(
+        filePath,
+        fileName,
+        userName,
+        openedFolderTitle,
+      );
 
       console.log(result);
 
       await uploadFileDB(
         req.user.id,
-        Number(req.params.openedFolderId),
+        openedFolderId,
         result.secure_url,
         result.display_name,
       );
     }
-    res.redirect("/");
+    if (openedFolderId) {
+      res.redirect(`/folders/${openedFolderId}`);
+    }
+    res.redirect("/folders");
   },
 ];
 
-exports.getAllFiles = async (user) => {
-  const files = await getAllFilesDB(user.id);
+exports.getAllFilesWithoutFolder = async (user) => {
+  const files = await getFilesInFolderDB(user.id, null);
   files.forEach((file) => {
     const imageTag = createImageTagIcon(`${user.username}/${file.name}`);
     file.imageTag = imageTag;

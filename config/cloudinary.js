@@ -1,9 +1,14 @@
 const cloudinary = require("cloudinary").v2;
 
-exports.uploadFile = async (filePath, fileName, userName, folderName) => {
+exports.uploadFileCloud = async (
+  filePath,
+  fileName,
+  userName,
+  openedFolderTitle,
+) => {
   try {
     const result = await cloudinary.uploader.upload(filePath, {
-      folder: `${userName}/${folderName}`,
+      folder: `${userName}/${openedFolderTitle}`,
       resource_type: "auto",
       public_id: fileName,
       unique_filename: true,
@@ -45,4 +50,9 @@ exports.createImageTagIcon = (publicId) => {
   });
 
   return imageTag;
+};
+
+exports.getAllAssetsInFolderCloud = async (folderTitle) => {
+  const assets = await cloudinary.api.resources_by_asset_folder(folderTitle);
+  return assets;
 };

@@ -4,7 +4,7 @@ const {
   uploadFileFormGet,
   uploadFileFormPost,
   getFileDetails,
-  getAllFiles,
+  getAllFilesWithoutFolder,
 } = require("../controllers/fileController");
 const multerUploads = require("../config/multer");
 const { dataUri } = require("../config/dataUri");
@@ -12,7 +12,7 @@ const { uploadImage } = require("../config/cloudinary");
 
 const fileRouter = Router();
 
-fileRouter.get("/", getAllFiles);
+fileRouter.get("/", getAllFilesWithoutFolder);
 
 fileRouter.get("/upload", isAuth, uploadFileFormGet);
 

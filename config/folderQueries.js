@@ -45,3 +45,11 @@ exports.getAllChildFoldersDB = async (folderId) => {
   );
   return childFolders;
 };
+
+exports.getFolderTitleByIdDB = async (folderId) => {
+  const folderTitle = await prisma.folder.findUnique({
+    where: { id: folderId },
+    select: { title: true },
+  });
+  return folderTitle.title;
+};

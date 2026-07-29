@@ -27,3 +27,13 @@ exports.getFileDetailsDB = async (fileId) => {
   });
   return file;
 };
+
+exports.getFilesInFolderDB = async (authorId, folderId) => {
+  const files = await prisma.file.findMany({
+    where: {
+      folderId: folderId,
+      authorId: authorId,
+    },
+  });
+  return files;
+};
