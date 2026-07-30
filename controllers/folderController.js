@@ -156,12 +156,14 @@ exports.getItemsInFolder = async (req, res, next) => {
 
   const childFolders = await getFolderAndAllChildFoldersDB(openedFolderId);
 
-  folderItems.files.forEach((file) => {
+  const folderItemsFiles = folderItems.files;
+
+  for (const file of folderItemsFiles) {
     const imageTag = createImageTagIcon(
       `${req.user.username}/${folderTitle}/${file.name}`,
     );
     file.imageTag = imageTag;
-  });
+  }
 
   res.render("folders", {
     folders: folderItems.childFolders,

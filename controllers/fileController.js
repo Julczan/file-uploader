@@ -6,11 +6,13 @@ const {
   createImageTagDetails,
   createImageTagIcon,
   uploadFileCloud,
+  deleteAssetsCloud,
 } = require("../config/cloudinary");
 const {
   uploadFileDB,
   getFileDetailsDB,
   getFilesInFolderDB,
+  deleteSingleFileDB,
 } = require("../config/fileQueries");
 const { findUserById } = require("../config/queries");
 const { getFolderTitleByIdDB } = require("../config/folderQueries");
@@ -81,9 +83,35 @@ exports.uploadFileFormPost = [
 
 exports.getAllFilesWithoutFolder = async (user) => {
   const files = await getFilesInFolderDB(user.id, null);
-  files.forEach((file) => {
+  for (const file of files) {
     const imageTag = createImageTagIcon(`${user.username}/${file.name}`);
     file.imageTag = imageTag;
-  });
+  }
   return files;
+};
+
+exports.deleteSingleFile = async (req, res, next) => {
+  const openedFolderId = Number(req.params.openedFolderId);
+  const fileId = Number(req.params.fileId);
+
+  const fileDetails = await getFileDetailsDB(fileId);
+
+  let filePath = `${req.user.username}/`;
+
+  if (openedFolderId) {
+    const folderTitle = await getFolderTitleByIdDB(openedFolderId);
+    filePath += `${folderTitle}/`;
+  }
+
+  filePath += `${fileDetails.name}`;
+
+  await deleteAssetsCloud(filePath);
+
+  await deleteSingleFileDB(fileId);
+
+  if (openedFolderId) {
+    res.redirect(`/folders/${openedFolderId}`);
+  } else {
+    res.redirect("/folders");
+  }
 };

@@ -43,3 +43,9 @@ exports.deleteFilesDB = async (folderId) => {
     where: { folderId: folderId },
   });
 };
+
+exports.deleteSingleFileDB = async (fileId) => {
+  await prisma.file.delete({
+    where: { id: fileId },
+  });
+};

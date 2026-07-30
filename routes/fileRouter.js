@@ -5,6 +5,7 @@ const {
   uploadFileFormPost,
   getFileDetails,
   getAllFilesWithoutFolder,
+  deleteSingleFile,
 } = require("../controllers/fileController");
 const multerUploads = require("../config/multer");
 const { dataUri } = require("../config/dataUri");
@@ -19,5 +20,7 @@ fileRouter.get("/upload", isAuth, uploadFileFormGet);
 fileRouter.post("/upload/{:openedFolderId}", uploadFileFormPost);
 
 fileRouter.get("/:fileId", getFileDetails);
+
+fileRouter.post("/:fileId/delete/{:openedFolderId}", deleteSingleFile);
 
 module.exports = fileRouter;

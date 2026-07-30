@@ -58,7 +58,6 @@ exports.createFolderCloud = async (folderPath) => {
 
 exports.getAllAssetsInFolderCloud = async (folderTitle) => {
   const assets = await cloudinary.api.resources_by_asset_folder(folderTitle);
-
   return assets.resources;
 };
 
