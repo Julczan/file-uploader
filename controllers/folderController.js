@@ -19,6 +19,8 @@ const {
   createFolderCloud,
   deleteAssetsCloud,
   deleteFolderCloud,
+  updateFolderCloud,
+  getAssetsByPublicId,
 } = require("../config/cloudinary");
 const { deleteFilesDB } = require("../config/fileQueries");
 
@@ -91,6 +93,11 @@ exports.updateFolderPost = [
     }
 
     const { folderTitle } = matchedData(req);
+    const oldFolderTitle = await getFolderTitleByIdDB(Number(folderId));
+    const oldPath = `${req.user.username}/${oldFolderTitle}`;
+    const newPath = `${req.user.username}/${folderTitle}`;
+
+    await updateFolderCloud(oldPath, newPath);
     await updateFolderDB(folderTitle, Number(folderId));
 
     if (openedFolderId) {
@@ -159,9 +166,7 @@ exports.getItemsInFolder = async (req, res, next) => {
   const folderItemsFiles = folderItems.files;
 
   for (const file of folderItemsFiles) {
-    const imageTag = createImageTagIcon(
-      `${req.user.username}/${folderTitle}/${file.name}`,
-    );
+    const imageTag = createImageTagIcon(file.name);
     file.imageTag = imageTag;
   }
 

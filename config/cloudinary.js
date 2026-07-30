@@ -14,6 +14,7 @@ exports.uploadFileCloud = async (
       unique_filename: true,
       use_filename: true,
       overwrite: true,
+      invalidate: true,
     });
     return result;
   } catch (error) {
@@ -61,10 +62,19 @@ exports.getAllAssetsInFolderCloud = async (folderTitle) => {
   return assets.resources;
 };
 
+exports.getAssetsByPublicId = async (publicId) => {
+  const asset = await cloudinary.api.resources_by_ids(publicId);
+  return asset;
+};
+
 exports.deleteAssetsCloud = async (publicIdsArray) => {
   await cloudinary.api.delete_resources(publicIdsArray);
 };
 
 exports.deleteFolderCloud = async (folderPath) => {
   await cloudinary.api.delete_folder(folderPath);
+};
+
+exports.updateFolderCloud = async (fromPath, toPath) => {
+  await cloudinary.api.rename_folder(fromPath, toPath);
 };

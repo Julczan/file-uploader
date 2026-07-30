@@ -23,23 +23,11 @@ exports.uploadFileFormGet = (req, res) => {
 
 exports.getFileDetails = async (req, res, next) => {
   const { fileId } = req.params;
-  const user = await findUserById(req.user.id);
   const file = await getFileDetailsDB(Number(fileId));
-  const folderId = file.folderId;
 
-  let folderTitle = "";
+  const fileCloud = await getFileDetialsCloud(file.name);
 
-  if (folderId) {
-    folderTitle = await getFolderTitleByIdDB(folderId);
-  }
-
-  const fileCloud = await getFileDetialsCloud(
-    `${user.username}/${folderTitle}/${file.name}`,
-  );
-
-  const imageTag = createImageTagDetails(
-    `${user.username}/${folderTitle}/${file.name}`,
-  );
+  const imageTag = createImageTagDetails(file.name);
 
   res.render("fileDetails", { file: fileCloud, imageTag: imageTag });
 };
@@ -70,7 +58,7 @@ exports.uploadFileFormPost = [
         req.user.id,
         openedFolderId,
         result.secure_url,
-        result.display_name,
+        result.public_id,
       );
     }
     if (openedFolderId) {
@@ -84,7 +72,7 @@ exports.uploadFileFormPost = [
 exports.getAllFilesWithoutFolder = async (user) => {
   const files = await getFilesInFolderDB(user.id, null);
   for (const file of files) {
-    const imageTag = createImageTagIcon(`${user.username}/${file.name}`);
+    const imageTag = createImageTagIcon(file.name);
     file.imageTag = imageTag;
   }
   return files;
@@ -96,16 +84,7 @@ exports.deleteSingleFile = async (req, res, next) => {
 
   const fileDetails = await getFileDetailsDB(fileId);
 
-  let filePath = `${req.user.username}/`;
-
-  if (openedFolderId) {
-    const folderTitle = await getFolderTitleByIdDB(openedFolderId);
-    filePath += `${folderTitle}/`;
-  }
-
-  filePath += `${fileDetails.name}`;
-
-  await deleteAssetsCloud(filePath);
+  await deleteAssetsCloud(fileDetails.name);
 
   await deleteSingleFileDB(fileId);
 
