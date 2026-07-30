@@ -73,8 +73,9 @@ exports.uploadFileFormPost = [
     }
     if (openedFolderId) {
       res.redirect(`/folders/${openedFolderId}`);
+    } else {
+      res.redirect("/folders");
     }
-    res.redirect("/folders");
   },
 ];
 

@@ -102,32 +102,42 @@ exports.updateFolderPost = [
 ];
 
 exports.deleteFolderPost = async (req, res, next) => {
-  const { openedFolderId, folderId } = req.params;
-  const folderAssetsArray = [];
-  const userName = req.user.username;
-  const folderWithChildFolders = await getFolderAndAllChildFoldersDB(folderId);
+  try {
+    const { openedFolderId, folderId } = req.params;
+    const userName = req.user.username;
 
-  folderWithChildFolders.forEach(async function (folder) {
-    const assets = await getAllAssetsInFolderCloud(
-      `${req.user.username}/${folder.title}`,
-    );
-    assets.forEach(async function (asset) {
-      await deleteAssetsCloud(asset.public_id);
-    });
+    const folderWithChildFolders =
+      await getFolderAndAllChildFoldersDB(folderId);
 
-    await deleteFolderCloud(`${req.user.username}/${folder.title}`);
-  });
+    for (const folder of folderWithChildFolders) {
+      const folderPath = `${userName}/${folder.title}`;
+      const assets = await getAllAssetsInFolderCloud(folderPath);
 
-  folderWithChildFolders.forEach(async function (folder) {
-    await deleteFilesDB(folder.id);
-  });
+      if (assets && assets.length > 0) {
+        await Promise.all(
+          assets.map((asset) => deleteAssetsCloud(asset.public_id)),
+        );
+      }
+    }
 
-  await deleteFolderDB(Number(folderId));
+    for (const folder of folderWithChildFolders) {
+      const folderPath = `${userName}/${folder.title}`;
+      await deleteFolderCloud(folderPath);
+    }
 
-  if (openedFolderId) {
-    res.redirect(`/folders/${openedFolderId}`);
-  } else {
-    res.redirect("/folders");
+    for (const folder of folderWithChildFolders) {
+      await deleteFilesDB(folder.id);
+    }
+
+    await deleteFolderDB(Number(folderId));
+
+    if (openedFolderId) {
+      res.redirect(`/folders/${openedFolderId}`);
+    } else {
+      res.redirect("/folders");
+    }
+  } catch (error) {
+    next(error);
   }
 };
 
