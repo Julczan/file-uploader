@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { isAuth } = require("./authMiddleware");
+const { isAuth, isFolderAuthor } = require("./authMiddleware");
 const {
   createFolderPost,
   FolderListGet,
@@ -11,7 +11,7 @@ const {
 const folderRouter = Router();
 
 folderRouter.get("/", isAuth, FolderListGet);
-folderRouter.get("/:openedFolderId", getItemsInFolder);
+folderRouter.get("/:openedFolderId", isFolderAuthor, getItemsInFolder);
 folderRouter.post("/create/{:openedFolderId}", isAuth, createFolderPost);
 folderRouter.post(
   "/:folderId/update/{:openedFolderId}",

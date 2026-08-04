@@ -65,3 +65,15 @@ exports.getFolderByTitle = async (folderTitle, authorId) => {
   });
   return folder;
 };
+
+exports.getFolderAuthor = async (folderId) => {
+  const folderAuthor = await prisma.folder.findUnique({
+    where: {
+      id: folderId,
+    },
+    select: {
+      authorId: true,
+    },
+  });
+  return folderAuthor.authorId;
+};
