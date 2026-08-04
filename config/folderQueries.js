@@ -17,7 +17,7 @@ exports.updateFolderDB = async (newTitle, folderId) => {
   });
 };
 
-exports.getAllFoldersDB = async (authorId) => {
+exports.getAllUserFoldersDB = async (authorId) => {
   const folders = await prisma.folder.findMany({
     where: {
       parentFolder: null,
@@ -55,4 +55,13 @@ exports.getFolderTitleByIdDB = async (folderId) => {
     select: { title: true },
   });
   return folderTitle.title;
+};
+
+exports.getFolderByTitle = async (folderTitle, authorId) => {
+  const folder = await prisma.folder.findFirst({
+    where: {
+      AND: [{ title: folderTitle }, { authorId: authorId }],
+    },
+  });
+  return folder;
 };

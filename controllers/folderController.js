@@ -1,6 +1,6 @@
 const {
   createFolderDB,
-  getAllFoldersDB,
+  getAllUserFoldersDB,
   getItemsInFolderDB,
   updateFolderDB,
   deleteFolderDB,
@@ -8,6 +8,7 @@ const {
   getFolderAncestors,
   getFolderAndAllChildFoldersDB,
   getFolderTitleByIdDB,
+  getFolderByTitle,
 } = require("../config/folderQueries");
 
 const { body, validationResult, matchedData } = require("express-validator");
@@ -30,7 +31,14 @@ const validateFolder = [
     .notEmpty()
     .withMessage("Folder Title can not be empty.")
     .isLength({ min: 1, max: 20 })
-    .withMessage("Title must be between 1 and 20 characters"),
+    .withMessage("Title must be between 1 and 20 characters")
+    .custom(async (folderTitle, { req }) => {
+      const userId = req.user.id;
+      const folder = await getFolderByTitle(folderTitle, userId);
+      if (folder) {
+        throw new Error("Folder already exists!");
+      }
+    }),
 ];
 
 exports.createFolderPost = [
@@ -38,7 +46,7 @@ exports.createFolderPost = [
   async (req, res, next) => {
     const errors = validationResult(req);
     const { openedFolderId } = req.params;
-    const folders = await getAllFoldersDB();
+    const folders = await getAllUserFoldersDB();
 
     if (!errors.isEmpty() && openedFolderId) {
       const folderItems = await getItemsInFolderDB(Number(openedFolderId));
@@ -74,7 +82,7 @@ exports.updateFolderPost = [
   async (req, res, next) => {
     const errors = validationResult(req);
     const { openedFolderId, folderId } = req.params;
-    const folders = await getAllFoldersDB();
+    const folders = await getAllUserFoldersDB();
 
     if (!errors.isEmpty() && openedFolderId) {
       const folderItems = await getItemsInFolderDB(Number(openedFolderId));
@@ -149,7 +157,7 @@ exports.deleteFolderPost = async (req, res, next) => {
 };
 
 exports.FolderListGet = async (req, res, next) => {
-  const folders = await getAllFoldersDB(req.user.id);
+  const folders = await getAllUserFoldersDB(req.user.id);
   const user = await findUserById(req.user.id);
   const files = await getAllFilesWithoutFolder(user);
 

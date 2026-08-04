@@ -11,10 +11,10 @@ exports.uploadFileCloud = async (
       folder: `${userName}/${openedFolderTitle}`,
       resource_type: "auto",
       public_id: fileName,
+      invalidate: true,
       unique_filename: true,
       use_filename: true,
       overwrite: true,
-      invalidate: true,
     });
     return result;
   } catch (error) {
