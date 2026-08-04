@@ -59,6 +59,7 @@ exports.uploadFileFormPost = [
         openedFolderId,
         result.secure_url,
         result.public_id,
+        result.version,
       );
     }
     if (openedFolderId) {

@@ -1,12 +1,19 @@
 const { prisma } = require("../lib/prisma");
 
-exports.uploadFileDB = async (authorId, folderId, url, fileName) => {
+exports.uploadFileDB = async (
+  authorId,
+  folderId,
+  url,
+  fileName,
+  fileVersion,
+) => {
   await prisma.file.create({
     data: {
       authorId: authorId,
       folderId: folderId,
       url: url,
       name: fileName,
+      version: fileVersion,
     },
   });
 };
