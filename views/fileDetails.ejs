@@ -8,12 +8,16 @@
   </head>
   <body>
     <main class="app-container">
+      <% const fileBytes = locals.file.bytes %> <% const fileMegabytes =
+      fileBytes / 1048576 %>
       <a href="<%= locals.file.secure_url %>">Download the file</a>
       <div class="file-details">
         <img src="<%= locals.imageTag %>" alt="test" />
         <div class="detail">File Name: <%= locals.file.display_name %></div>
-        <div class="detail">File Size: <%= locals.file.bytes %></div>
-        <div class="detail">Upload Time: <%= locals.file.created_at %></div>
+        <div class="detail">File Size: <%= fileMegabytes.toFixed(3) %> MB</div>
+        <div class="detail">
+          Upload Time: <%= locals.timeStamp.toLocaleString() %>
+        </div>
       </div>
     </main>
   </body>

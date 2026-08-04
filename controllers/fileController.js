@@ -29,7 +29,11 @@ exports.getFileDetails = async (req, res, next) => {
 
   const imageTag = createImageTagDetails(file.name, file.version);
 
-  res.render("fileDetails", { file: fileCloud, imageTag: imageTag });
+  res.render("fileDetails", {
+    file: fileCloud,
+    imageTag: imageTag,
+    timeStamp: file.createdAt,
+  });
 };
 
 exports.uploadFileFormPost = [
