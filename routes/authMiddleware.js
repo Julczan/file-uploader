@@ -1,3 +1,4 @@
+const { getFileAuthor } = require("../config/fileQueries");
 const {
   getFolderAuthor,
   getAllUserFoldersDB,
@@ -28,6 +29,27 @@ exports.isFolderAuthor = async (req, res, next) => {
       folders: folders,
       files: files,
       errors: [{ msg: "You are not authorized to see the folder" }],
+    });
+    return;
+  }
+
+  next();
+};
+
+exports.isFileAuthor = async (req, res, next) => {
+  const userId = req.user.id;
+  const { fileId } = req.params;
+
+  const folders = await getAllUserFoldersDB(userId);
+  const files = await getAllFilesWithoutFolder(req.user);
+
+  const fileAuthor = await getFileAuthor(Number(fileId));
+
+  if (userId !== fileAuthor) {
+    res.render("index", {
+      folders: folders,
+      files: files,
+      errors: [{ msg: "You are not authorized to see this file" }],
     });
     return;
   }

@@ -57,8 +57,6 @@ exports.createImageTagIcon = (publicId, version) => {
     version: version,
   });
 
-  console.log(imageTag);
-
   return imageTag;
 };
 

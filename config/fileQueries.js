@@ -56,3 +56,15 @@ exports.deleteSingleFileDB = async (fileId) => {
     where: { id: fileId },
   });
 };
+
+exports.getFileAuthor = async (fileId) => {
+  const fileAuthor = await prisma.file.findUnique({
+    where: {
+      id: fileId,
+    },
+    select: {
+      authorId: true,
+    },
+  });
+  return fileAuthor.authorId;
+};

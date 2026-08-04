@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { isAuth } = require("./authMiddleware");
+const { isAuth, isFileAuthor } = require("./authMiddleware");
 const {
   uploadFileFormGet,
   uploadFileFormPost,
@@ -19,7 +19,7 @@ fileRouter.get("/upload", isAuth, uploadFileFormGet);
 
 fileRouter.post("/upload/{:openedFolderId}", uploadFileFormPost);
 
-fileRouter.get("/:fileId", getFileDetails);
+fileRouter.get("/:fileId", isFileAuthor, getFileDetails);
 
 fileRouter.post("/:fileId/delete/{:openedFolderId}", deleteSingleFile);
 
