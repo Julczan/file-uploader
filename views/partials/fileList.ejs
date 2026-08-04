@@ -2,7 +2,7 @@
 <ul>
   <% files.forEach((file) => { %>
   <li>
-    <img src="<%= file.imageTag %>?v=<%= file.version %>" alt="test" />
+    <img src="<%= file.imageTag %>" alt="test" />
     <a href="/files/<%= file.id %>"><%= file.name %></a>
     <a href="<%= file.url %>">Download</a>
     <div>

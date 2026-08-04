@@ -174,7 +174,7 @@ exports.getItemsInFolder = async (req, res, next) => {
   const folderItemsFiles = folderItems.files;
 
   for (const file of folderItemsFiles) {
-    const imageTag = createImageTagIcon(file.name);
+    const imageTag = createImageTagIcon(file.name, file.version);
     file.imageTag = imageTag;
   }
 

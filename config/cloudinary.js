@@ -27,17 +27,23 @@ exports.getFileDetialsCloud = async (fileName) => {
   return result;
 };
 
-exports.createImageTagDetails = (publicId) => {
+exports.createImageTagDetails = (publicId, version) => {
   let imageTag = cloudinary.url(publicId, {
     transformation: [
-      { height: "400", format: "auto", quality: "auto", crop: "auto" },
+      {
+        height: "400",
+        format: "auto",
+        quality: "auto",
+        crop: "auto",
+      },
     ],
+    version: version,
   });
 
   return imageTag;
 };
 
-exports.createImageTagIcon = (publicId) => {
+exports.createImageTagIcon = (publicId, version) => {
   let imageTag = cloudinary.url(publicId, {
     transformation: [
       {
@@ -48,7 +54,10 @@ exports.createImageTagIcon = (publicId) => {
         crop: "auto",
       },
     ],
+    version: version,
   });
+
+  console.log(imageTag);
 
   return imageTag;
 };

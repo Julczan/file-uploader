@@ -10,10 +10,7 @@
     <main class="app-container">
       <a href="<%= locals.file.secure_url %>">Download the file</a>
       <div class="file-details">
-        <img
-          src="<%= locals.imageTag %>?v=<%= locals.file.version %>"
-          alt="test"
-        />
+        <img src="<%= locals.imageTag %>" alt="test" />
         <div class="detail">File Name: <%= locals.file.display_name %></div>
         <div class="detail">File Size: <%= locals.file.bytes %></div>
         <div class="detail">Upload Time: <%= locals.file.created_at %></div>

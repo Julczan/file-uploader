@@ -27,7 +27,7 @@ exports.getFileDetails = async (req, res, next) => {
 
   const fileCloud = await getFileDetialsCloud(file.name);
 
-  const imageTag = createImageTagDetails(file.name);
+  const imageTag = createImageTagDetails(file.name, file.version);
 
   res.render("fileDetails", { file: fileCloud, imageTag: imageTag });
 };
@@ -52,8 +52,6 @@ exports.uploadFileFormPost = [
         openedFolderTitle,
       );
 
-      console.log(result);
-
       await uploadFileDB(
         req.user.id,
         openedFolderId,
@@ -73,7 +71,7 @@ exports.uploadFileFormPost = [
 exports.getAllFilesWithoutFolder = async (user) => {
   const files = await getFilesInFolderDB(user.id, null);
   for (const file of files) {
-    const imageTag = createImageTagIcon(file.name);
+    const imageTag = createImageTagIcon(file.name, file.version);
     file.imageTag = imageTag;
   }
   return files;
