@@ -12,7 +12,7 @@
       fileBytes / 1048576 %>
       <a href="<%= locals.file.secure_url %>">Download the file</a>
       <div class="file-details">
-        <img src="<%= locals.imageTag %>" alt="test" />
+        <%- locals.imageTag %>
         <div class="detail">File Name: <%= locals.file.display_name %></div>
         <div class="detail">File Size: <%= fileMegabytes.toFixed(3) %> MB</div>
         <div class="detail">

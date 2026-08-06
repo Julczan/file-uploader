@@ -6,6 +6,7 @@ exports.uploadFileDB = async (
   url,
   fileName,
   fileVersion,
+  resourceType,
 ) => {
   await prisma.file.create({
     data: {
@@ -14,6 +15,7 @@ exports.uploadFileDB = async (
       url: url,
       name: fileName,
       version: fileVersion,
+      resourceType: resourceType,
     },
   });
 };

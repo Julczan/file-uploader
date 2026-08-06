@@ -7,6 +7,7 @@ const {
   createImageTagIcon,
   uploadFileCloud,
   deleteAssetsCloud,
+  createVideoTagDetails,
 } = require("../config/cloudinary");
 const {
   uploadFileDB,
@@ -25,9 +26,17 @@ exports.getFileDetails = async (req, res, next) => {
   const { fileId } = req.params;
   const file = await getFileDetailsDB(Number(fileId));
 
-  const fileCloud = await getFileDetialsCloud(file.name);
+  const fileCloud = await getFileDetialsCloud(file.name, file.resourceType);
 
-  const imageTag = createImageTagDetails(file.name, file.version);
+  console.log(fileCloud);
+
+  let imageTag = "";
+  if (file.resourceType === "image") {
+    imageTag = createImageTagDetails(file.name, file.version);
+  }
+  if (file.resourceType === "video") {
+    imageTag = createVideoTagDetails(file.name, file.version);
+  }
 
   res.render("fileDetails", {
     file: fileCloud,
@@ -62,6 +71,7 @@ exports.uploadFileFormPost = [
         result.secure_url,
         result.public_id,
         result.version,
+        result.resource_type,
       );
     }
     if (openedFolderId) {
@@ -87,7 +97,7 @@ exports.deleteSingleFile = async (req, res, next) => {
 
   const fileDetails = await getFileDetailsDB(fileId);
 
-  await deleteAssetsCloud(fileDetails.name);
+  await deleteAssetsCloud(fileDetails.name, fileDetails.resourceType);
 
   await deleteSingleFileDB(fileId);
 

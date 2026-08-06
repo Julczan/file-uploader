@@ -22,13 +22,14 @@ exports.uploadFileCloud = async (
   }
 };
 
-exports.getFileDetialsCloud = async (fileName) => {
-  const result = await cloudinary.api.resource(fileName);
+exports.getFileDetialsCloud = async (fileName, resourceType) => {
+  const options = { resource_type: resourceType };
+  const result = await cloudinary.api.resource(fileName, options);
   return result;
 };
 
 exports.createImageTagDetails = (publicId, version) => {
-  let imageTag = cloudinary.url(publicId, {
+  let imageTag = cloudinary.image(publicId, {
     transformation: [
       {
         height: "400",
@@ -41,6 +42,24 @@ exports.createImageTagDetails = (publicId, version) => {
   });
 
   return imageTag;
+};
+
+exports.createVideoTagDetails = (publicId, version) => {
+  let videoTag = cloudinary.video(publicId, {
+    version: version,
+    loop: true,
+    controls: true,
+    transformation: {
+      height: 360,
+      width: 480,
+      quality: 70,
+      duration: 10,
+      crop: "pad",
+    },
+    fallback_content: "Your browser does not support HTML5 video tags.",
+  });
+
+  return videoTag;
 };
 
 exports.createImageTagIcon = (publicId, version) => {
@@ -74,8 +93,9 @@ exports.getAssetsByPublicId = async (publicId) => {
   return asset;
 };
 
-exports.deleteAssetsCloud = async (publicIdsArray) => {
-  await cloudinary.api.delete_resources(publicIdsArray);
+exports.deleteAssetsCloud = async (publicIdsArray, resourceType) => {
+  const options = { resource_type: resourceType };
+  await cloudinary.api.delete_resources(publicIdsArray, options);
 };
 
 exports.deleteFolderCloud = async (folderPath) => {
