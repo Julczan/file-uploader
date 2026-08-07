@@ -91,3 +91,7 @@ body {
   background-color: black;
   color: white;
 }
+
+.detail-image {
+  max-width: 600px;
+}

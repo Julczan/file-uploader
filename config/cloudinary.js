@@ -32,10 +32,8 @@ exports.createImageTagDetails = (publicId, version) => {
   let imageTag = cloudinary.image(publicId, {
     transformation: [
       {
-        height: "400",
         format: "auto",
         quality: "auto",
-        crop: "auto",
       },
     ],
     version: version,
@@ -62,20 +60,51 @@ exports.createVideoTagDetails = (publicId, version) => {
   return videoTag;
 };
 
-exports.createImageTagIcon = (publicId, version) => {
+exports.createImageTagIcon = (publicId, version, resourceType) => {
   let imageTag = cloudinary.url(publicId, {
+    resource_type: resourceType,
     transformation: [
       {
         width: "32",
         height: "32",
-        format: "auto",
         quality: "auto:low",
         crop: "auto",
       },
     ],
+    format: "jpg",
     version: version,
+    page: 1,
   });
 
+  return imageTag;
+};
+
+exports.getImageDetailsPlaceholder = () => {
+  const placeholderUrl = "samples/logo.png";
+
+  const imageTag = cloudinary.image(placeholderUrl, {
+    transformation: [
+      {
+        quality: "auto",
+      },
+    ],
+  });
+  return imageTag;
+};
+
+exports.getImageIconPlaceholder = () => {
+  const placeholderUrl = "samples/logo.png";
+
+  const imageTag = cloudinary.url(placeholderUrl, {
+    transformation: [
+      {
+        width: "32",
+        height: "32",
+        quality: "auto:low",
+        crop: "auto",
+      },
+    ],
+  });
   return imageTag;
 };
 

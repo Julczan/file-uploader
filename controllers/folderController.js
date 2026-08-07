@@ -22,6 +22,7 @@ const {
   deleteFolderCloud,
   updateFolderCloud,
   getAssetsByPublicId,
+  getImageIconPlaceholder,
 } = require("../config/cloudinary");
 const { deleteFilesDB } = require("../config/fileQueries");
 
@@ -174,7 +175,11 @@ exports.getItemsInFolder = async (req, res, next) => {
   const folderItemsFiles = folderItems.files;
 
   for (const file of folderItemsFiles) {
-    const imageTag = createImageTagIcon(file.name, file.version);
+    let imageTag = "";
+    if (file.resourceType === "raw") {
+      imageTag = getImageIconPlaceholder();
+    }
+    imageTag = createImageTagIcon(file.name, file.version, file.resourceType);
     file.imageTag = imageTag;
   }
 

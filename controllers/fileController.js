@@ -8,6 +8,8 @@ const {
   uploadFileCloud,
   deleteAssetsCloud,
   createVideoTagDetails,
+  getImageDetailsPlaceholder,
+  getImageIconPlaceholder,
 } = require("../config/cloudinary");
 const {
   uploadFileDB,
@@ -36,6 +38,8 @@ exports.getFileDetails = async (req, res, next) => {
   }
   if (file.resourceType === "video") {
     imageTag = createVideoTagDetails(file.name, file.version);
+  } else {
+    imageTag = getImageDetailsPlaceholder();
   }
 
   res.render("fileDetails", {
@@ -85,7 +89,13 @@ exports.uploadFileFormPost = [
 exports.getAllFilesWithoutFolder = async (user) => {
   const files = await getFilesInFolderDB(user.id, null);
   for (const file of files) {
-    const imageTag = createImageTagIcon(file.name, file.version);
+    let imageTag = "";
+    if (file.resourceType === "raw") {
+      imageTag = getImageIconPlaceholder();
+      console.log(imageTag);
+    } else {
+      imageTag = createImageTagIcon(file.name, file.version, file.resourceType);
+    }
     file.imageTag = imageTag;
   }
   return files;
