@@ -178,8 +178,9 @@ exports.getItemsInFolder = async (req, res, next) => {
     let imageTag = "";
     if (file.resourceType === "raw") {
       imageTag = getImageIconPlaceholder();
+    } else {
+      imageTag = createImageTagIcon(file.name, file.version, file.resourceType);
     }
-    imageTag = createImageTagIcon(file.name, file.version, file.resourceType);
     file.imageTag = imageTag;
   }
 

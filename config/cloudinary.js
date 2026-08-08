@@ -101,7 +101,7 @@ exports.getImageIconPlaceholder = () => {
         width: "32",
         height: "32",
         quality: "auto:low",
-        crop: "auto",
+        crop: "fit",
       },
     ],
   });

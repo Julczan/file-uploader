@@ -70,3 +70,12 @@ exports.getFileAuthor = async (fileId) => {
   });
   return fileAuthor.authorId;
 };
+
+exports.getFileByTitle = async (fileName, authorId) => {
+  const file = await prisma.file.findFirst({
+    where: {
+      AND: [{ name: fileName }, { authorId: authorId }],
+    },
+  });
+  return file;
+};
