@@ -2,6 +2,7 @@ const { prisma } = require("../lib/prisma");
 const {
   getAllChildFolders,
   getFolderAndAllChildFolders,
+  getFolderAndAllAncestors,
 } = require("../generated/prisma/sql");
 
 exports.createFolderDB = async (title, authorId, parentId) => {
@@ -76,4 +77,11 @@ exports.getFolderAuthor = async (folderId) => {
     },
   });
   return folderAuthor.authorId;
+};
+
+exports.getFolderAndAllAncestorsDB = async (folderId) => {
+  const folderAncestors = await prisma.$queryRawTyped(
+    getFolderAndAllAncestors(folderId),
+  );
+  return folderAncestors;
 };

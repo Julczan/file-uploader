@@ -5,10 +5,10 @@ const {
   updateFolderDB,
   deleteFolderDB,
   getParentFolder,
-  getFolderAncestors,
   getFolderAndAllChildFoldersDB,
   getFolderTitleByIdDB,
   getFolderByTitle,
+  getFolderAndAllAncestorsDB,
 } = require("../config/folderQueries");
 
 const { body, validationResult, matchedData } = require("express-validator");
@@ -170,7 +170,17 @@ exports.getItemsInFolder = async (req, res, next) => {
   const folderItems = await getItemsInFolderDB(Number(openedFolderId));
   const folderTitle = await getFolderTitleByIdDB(Number(openedFolderId));
 
-  const childFolders = await getFolderAndAllChildFoldersDB(openedFolderId);
+  const parentFolders = await getFolderAndAllAncestorsDB(openedFolderId);
+
+  let folderObject = [];
+
+  for (const folder of parentFolders) {
+    if (folder.id) {
+      const title = await getFolderTitleByIdDB(folder.id);
+      const parentFolder = { id: folder.id, title: title };
+      folderObject.push(parentFolder);
+    }
+  }
 
   const folderItemsFiles = folderItems.files;
 
@@ -188,5 +198,6 @@ exports.getItemsInFolder = async (req, res, next) => {
     folders: folderItems.childFolders,
     openedFolderId: folderItems.id,
     files: folderItems.files,
+    parentFolders: folderObject,
   });
 };
