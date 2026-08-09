@@ -95,3 +95,23 @@ body {
 .detail-image {
   max-width: 600px;
 }
+
+.dropdown {
+  position: relative;
+}
+
+/* Dropdown content */
+.dropdown-content {
+  display: none;
+  position: absolute;
+}
+
+/* Links inside dropdown content */
+.dropdown-content button {
+  width: 100%;
+}
+
+/* Show the dropdown content on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
