@@ -1,68 +1,88 @@
-<% if (locals.folders && folders.length !== 0) {%>
-<ul>
-  <% folders.forEach((folder) => { %>
-  <li>
-    <a href="/folders/<%= folder.id %>"> <%= folder.title %></a>
-    <div>
+<div class="list-section">
+  <h3 class="section-title">Folders</h3>
+
+  <% if (locals.folders && folders.length !== 0) { %>
+  <div class="folder-grid">
+    <% folders.forEach((folder) => { %>
+    <div class="folder-card">
+      <a href="/folders/<%= folder.id %>" class="folder-link">
+        <span class="folder-icon">📁</span>
+        <span class="folder-name"><%= folder.title %></span>
+      </a>
+
       <div class="dropdown">
-        <i class="fa-solid fa-caret-down dropbtn"></i>
+        <button class="btn-icon dropbtn" aria-label="Folder options">
+          <i class="fa-solid fa-caret-down"></i>
+        </button>
         <div class="dropdown-content">
-          <button popovertarget="folder-dialog <%= folder.id %>">
-            Update folder
+          <button
+            class="dropdown-item"
+            popovertarget="folder-dialog-<%= folder.id %>"
+          >
+            ✏️ Rename
           </button>
           <form
             action="/folders/<%= folder.id %>/delete/<%= locals.openedFolderId %>"
             method="post"
-            class="auth-form"
           >
             <button
               type="submit"
+              class="dropdown-item text-danger"
               onclick="
                 return confirm(
                   'Are you sure you want to delete this folder and everything it contains?',
                 );
               "
             >
-              Delete
+              🗑️ Delete
             </button>
           </form>
         </div>
       </div>
     </div>
-  </li>
-  <dialog id="folder-dialog <%= folder.id %>" popover>
-    <div class="form-container">
-      <h2 class="form-title">Update <%= folder.title %></h2>
-      <div class="form-errors"><%- include("errorMessages.ejs") %></div>
-      <form
-        action="/folders/<%= folder.id %>/update/<%= locals.openedFolderId %>"
-        method="post"
-        class="auth-form"
-      >
-        <div class="form-group">
-          <label for="folderTitle">Folder title</label>
-          <input
-            id="folderTitle"
-            name="folderTitle"
-            type="text"
-            value="<%= folder.title %>"
-            required
-          />
-        </div>
-        <button type="submit" class="btn-submit">Update</button>
-        <button
-          popovertarget="folder-dialog <%= folder.id %>"
-          popovertargetaction="hide"
-          type="button"
-        >
-          Close
-        </button>
-      </form>
-    </div>
-  </dialog>
-  <% }); %>
-</ul>
 
-<% }else{ %>
-No folders yet
-<% } %>
+    <!-- Update Folder Modal -->
+    <dialog id="folder-dialog-<%= folder.id %>" class="modal" popover>
+      <div class="modal-content">
+        <h2 class="modal-title">Rename "<%= folder.title %>"</h2>
+
+        <div class="form-errors"><%- include("errorMessages.ejs") %></div>
+
+        <form
+          action="/folders/<%= folder.id %>/update/<%= locals.openedFolderId %>"
+          method="post"
+        >
+          <div class="form-group">
+            <label for="folderTitle-<%= folder.id %>">Folder Name</label>
+            <input
+              id="folderTitle-<%= folder.id %>"
+              name="folderTitle"
+              type="text"
+              value="<%= folder.title %>"
+              required
+            />
+          </div>
+
+          <div class="modal-actions">
+            <button
+              class="btn btn-outline"
+              popovertarget="folder-dialog-<%= folder.id %>"
+              popovertargetaction="hide"
+              type="button"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </dialog>
+    <% }); %>
+  </div>
+  <% } else { %>
+  <div class="empty-state">
+    <div class="empty-icon">📂</div>
+    <p>No folders yet.</p>
+  </div>
+  <% } %>
+</div>

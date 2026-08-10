@@ -5,8 +5,12 @@ const { findUserById } = require("../config/queries");
 const { getAllFilesWithoutFolder } = require("./fileController");
 
 exports.indexPageGet = async (req, res, next) => {
-  const folders = await getAllUserFoldersDB(req.user.id);
-  const user = await findUserById(req.user.id);
-  const files = await getAllFilesWithoutFolder(user);
-  res.render("index", { folders: folders, files: files });
+  if (req.user) {
+    const user = await findUserById(req.user.id);
+    const folders = await getAllUserFoldersDB(req.user.id);
+    const files = await getAllFilesWithoutFolder(user);
+    res.render("index", { folders: folders, files: files });
+  } else {
+    res.render("index");
+  }
 };

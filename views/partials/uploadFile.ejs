@@ -1,32 +1,52 @@
-<div>
-  <button popovertarget="upload-file-dialog">Upload file</button>
+<div class="sidebar-action">
+  <button class="btn btn-outline btn-block" popovertarget="upload-file-dialog">
+    ⬆️ Upload File
+  </button>
 
-  <dialog id="upload-file-dialog" popover>
-    <div class="form-container">
-      <h2 class="form-title">Create new Folder</h2>
+  <dialog id="upload-file-dialog" class="modal" popover>
+    <div class="modal-content">
+      <h2 class="modal-title">Upload File</h2>
+
       <div class="form-errors"><%- include("errorMessages.ejs") %></div>
+
       <form
         action="/files/upload/<%= locals.openedFolderId %>"
         method="POST"
-        class="auth-form"
         enctype="multipart/form-data"
       >
         <div class="form-group">
-          <label for="file">File</label>
-          <input id="file" name="file" type="file" required />
+          <label for="file">Select File</label>
+          <input
+            id="file"
+            name="file"
+            type="file"
+            class="file-input"
+            required
+          />
         </div>
+
         <div class="form-group">
-          <label for="fileName">Name</label>
-          <input id="fileName" name="fileName" type="text" required />
+          <label for="fileName">File Name</label>
+          <input
+            id="fileName"
+            name="fileName"
+            type="text"
+            placeholder="project-presentation.pdf"
+            required
+          />
         </div>
-        <button type="submit" class="btn-submit">Upload</button>
-        <button
-          popovertarget="upload-file-dialog"
-          popovertargetaction="hide"
-          type="button"
-        >
-          Close
-        </button>
+
+        <div class="modal-actions">
+          <button
+            class="btn btn-outline"
+            popovertarget="upload-file-dialog"
+            popovertargetaction="hide"
+            type="button"
+          >
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary">Upload</button>
+        </div>
       </form>
     </div>
   </dialog>

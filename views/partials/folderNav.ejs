@@ -1,7 +1,10 @@
-<a href="/">Home</a>
+<nav aria-label="Breadcrumbs" class="breadcrumbs">
+  <a href="/" class="breadcrumb-item breadcrumb-home">🏠 Home</a>
 
-<% if (locals.parentFolders) { %>
-<% parentFolders.forEach(folder => { %> /
-<a href="<%= folder.id %>"><%= folder.title %></a>
-<% }) %>
-<% } %>
+  <% if (locals.parentFolders) { %>
+  <% parentFolders.forEach(folder => { %>
+  <span class="breadcrumb-separator">›</span>
+  <a href="<%= folder.id %>" class="breadcrumb-item"><%= folder.title %></a>
+  <% }) %>
+  <% } %>
+</nav>

@@ -1,14 +1,24 @@
-<% if (locals.errors) {%>
-<div>
-  <dialog open id="error-dialog">
-    <ul>
+<% if (locals.errors && errors.length > 0) { %>
+<dialog id="error-dialog" class="modal">
+  <div class="modal-content">
+    <div class="modal-header-icon">
+      <span class="error-icon">⚠️</span>
+      <h2 class="modal-title">Something went wrong</h2>
+    </div>
+
+    <ul class="error-list">
       <% errors.forEach(function(error) { %>
       <li><%= error.msg %></li>
       <% }); %>
     </ul>
-    <form method="dialog">
-      <button>OK</button>
+
+    <form method="dialog" class="modal-actions">
+      <button class="btn btn-primary" type="submit">Got it</button>
     </form>
-  </dialog>
-</div>
+  </div>
+</dialog>
+
+<script>
+  document.getElementById("error-dialog").showModal();
+</script>
 <% } %>

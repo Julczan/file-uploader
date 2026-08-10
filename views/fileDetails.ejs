@@ -3,20 +3,59 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= locals.file.display_name %> - JulczanDrive</title>
+    <!-- Modern sans-serif font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="/styles.css" />
-    <title>Home</title>
   </head>
   <body>
-    <main class="app-container">
-      <% const fileBytes = locals.file.bytes %> <% const fileMegabytes =
-      fileBytes / 1048576 %>
-      <a href="<%= locals.file.secure_url %>">Download the file</a>
-      <div class="file-details">
-        <div class="detail-image"><%- locals.imageTag %></div>
-        <div class="detail">File Name: <%= locals.file.display_name %></div>
-        <div class="detail">File Size: <%= fileMegabytes.toFixed(3) %> MB</div>
-        <div class="detail">
-          Upload Time: <%= locals.timeStamp.toLocaleString() %>
+    <!-- Consistent Top Navigation -->
+    <header class="topbar">
+      <div class="logo">☁️ JulczanDrive</div>
+      <div class="user-menu">
+        <a href="/" class="btn btn-outline">← Back to Drive</a>
+      </div>
+    </header>
+
+    <main class="page-content">
+      <% const fileBytes = locals.file.bytes; const fileMegabytes = fileBytes /
+      1048576; %>
+
+      <div class="file-details-card">
+        <!-- Left Column: Image Preview -->
+        <div class="details-preview"><%- locals.imageTag %></div>
+
+        <!-- Right Column: File Information -->
+        <div class="details-info">
+          <h1 class="details-title"><%= locals.file.display_name %></h1>
+
+          <div class="meta-grid">
+            <div class="meta-item">
+              <span class="meta-label">File Size</span>
+              <span class="meta-value"><%= fileMegabytes.toFixed(2) %> MB</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Date Uploaded</span>
+              <span class="meta-value"
+                ><%= locals.timeStamp.toLocaleString() %></span
+              >
+            </div>
+          </div>
+
+          <div class="details-actions">
+            <a
+              href="<%= locals.file.secure_url %>"
+              class="btn btn-primary btn-block"
+              download
+            >
+              ⬇️ Download File
+            </a>
+          </div>
         </div>
       </div>
     </main>

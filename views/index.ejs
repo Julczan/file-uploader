@@ -3,34 +3,94 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JulczanDrive - Personal Cloud Storage</title>
+    <!-- Modern sans-serif font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="/styles.css" />
-    <script
-      src="https://kit.fontawesome.com/15a1a718f4.js"
-      crossorigin="anonymous"
-    ></script>
-    <title>Home</title>
   </head>
   <body>
-    <% if (locals.currentUser) {%>
-    <h1>
-      WELCOME BACK
-      <%= currentUser.username %>
-    </h1>
-    <a href="/log-out">LOG OUT</a>
-    <%- include("partials/createFolder.ejs") %>
-    <%- include("partials/folderList.ejs") %>
+    <% if (locals.currentUser) { %>
+    <!-- LOGGED IN: Dashboard Layout -->
+    <div class="dashboard">
+      <header class="topbar">
+        <a href="/" class="logo">☁️ JulczanDrive</a>
+        <div class="user-menu">
+          <span class="greeting"
+            >Welcome back, <strong><%= currentUser.username %></strong></span
+          >
+          <a href="/log-out" class="btn btn-outline">Log Out</a>
+        </div>
+      </header>
+
+      <main class="dashboard-content">
+        <aside class="sidebar">
+          <%- include("partials/createFolder.ejs") %> <%-
+          include("partials/uploadFile.ejs") %>
+        </aside>
+
+        <section class="main-stage">
+          <%- include("partials/folderList.ejs") %> <%-
+          include("partials/fileList.ejs") %>
+        </section>
+      </main>
+    </div>
+
+    <!-- Modals/Overlays -->
     <%- include("partials/errorDialog.ejs") %>
-    <%- include("partials/uploadFile.ejs") %>
-    <%- include("partials/fileList.ejs") %>
+
     <% } else { %>
-    <h1>please log in</h1>
-    <form action="/log-in" method="POST">
-      <label for="username">Username</label>
-      <input id="username" name="username" placeholder="username" type="text" />
-      <label for="password">Password</label>
-      <input id="password" name="password" type="password" />
-      <button type="submit">Log In</button>
-    </form>
-    <%}%>
+    <!-- LOGGED OUT: Landing Page Layout -->
+    <div class="landing-container">
+      <div class="landing-hero">
+        <div class="hero-content">
+          <h1>Your files, perfectly organized.</h1>
+          <p>
+            Access your documents, photos, and folders from anywhere. Secure,
+            fast, and simple cloud storage built for you.
+          </p>
+        </div>
+      </div>
+
+      <div class="landing-login">
+        <div class="login-card">
+          <h2>Welcome Back</h2>
+          <p class="subtitle">Please enter your details to sign in.</p>
+
+          <form action="/log-in" method="POST">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input
+                id="username"
+                name="username"
+                placeholder="coolcoder99"
+                type="text"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                id="password"
+                name="password"
+                placeholder="••••••••"
+                type="password"
+                required
+              />
+            </div>
+
+            <button class="btn btn-primary btn-block" type="submit">
+              Log In
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <% } %>
   </body>
 </html>
