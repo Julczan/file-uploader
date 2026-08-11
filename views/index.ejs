@@ -62,40 +62,7 @@
         </div>
       </div>
 
-      <div class="landing-login">
-        <div class="login-card">
-          <h2>Welcome Back</h2>
-          <p class="subtitle">Please enter your details to sign in.</p>
-
-          <form action="/log-in" method="POST">
-            <div class="form-group">
-              <label for="username">Username</label>
-              <input
-                id="username"
-                name="username"
-                placeholder="coolcoder99"
-                type="text"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input
-                id="password"
-                name="password"
-                placeholder="••••••••"
-                type="password"
-                required
-              />
-            </div>
-
-            <button class="btn btn-primary btn-block" type="submit">
-              Log In
-            </button>
-          </form>
-        </div>
-      </div>
+      <div class="landing-login"><%- include("partials/signUp.ejs") %></div>
     </div>
     <% } %>
   </body>

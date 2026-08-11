@@ -1,0 +1,60 @@
+<div class="auth-card">
+  <div class="auth-header">
+    <h2>☁️ MyDrive</h2>
+    <p class="subtitle">Create your account</p>
+  </div>
+
+  <div class="form-errors"><%- include("errors.ejs") %></div>
+
+  <form action="/sign-up" method="post">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        placeholder="e.g. coolcoder99"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        id="email"
+        name="email"
+        placeholder="you@example.com"
+        type="email"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="••••••••"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="confirmPassword">Confirm Password</label>
+      <input
+        type="password"
+        id="confirmPassword"
+        name="confirmPassword"
+        placeholder="••••••••"
+        required
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+  </form>
+
+  <p class="form-footer">
+    Already have an account? <a href="/log-in">Log in</a>
+  </p>
+</div>
