@@ -102,7 +102,6 @@ body {
 
 /* Dropdown content */
 .dropdown-content {
-  display: none;
   position: absolute;
 }
 
@@ -458,7 +457,8 @@ input[type="password"]:focus {
 }
 
 .dropdown-content {
-  display: none; /* Hidden by default */
+  visibility: hidden;
+  transition: all 0.2s 0.5s;
   position: absolute;
   right: 0;
   top: 100%;
@@ -475,6 +475,8 @@ input[type="password"]:focus {
 /* Show dropdown content on hover or focus-within */
 .dropdown:hover .dropdown-content,
 .dropdown:focus-within .dropdown-content {
+  visibility: visible;
+  transition-delay: 0s;
   display: flex;
   flex-direction: column;
 }
