@@ -82,6 +82,8 @@ h6 {
   --accent-hover: #9965db;
   --border-color: #333333;
 
+  --danger-color: #dc2626;
+
   /* Utility */
   --border-radius: 8px;
   --transition-speed: 0.2s;
@@ -451,6 +453,10 @@ input[type="password"]:focus {
   color: var(--text-main);
 }
 
+.btn-danger:hover {
+  color: var(--danger-color);
+}
+
 .dropdown {
   position: relative;
   display: inline-block;
@@ -500,7 +506,7 @@ input[type="password"]:focus {
 }
 
 .text-danger {
-  color: #dc2626; /* A clear red for destructive actions */
+  color: var(--danger-color); /* A clear red for destructive actions */
 }
 
 .text-danger:hover {

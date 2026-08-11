@@ -6,7 +6,7 @@
     <% folders.forEach((folder) => { %>
     <div class="folder-card">
       <a href="/folders/<%= folder.id %>" class="folder-link">
-        <span class="folder-icon">📁</span>
+        <i class="fa-solid fa-folder"></i>
         <span class="folder-name"><%= folder.title %></span>
       </a>
 
@@ -19,7 +19,7 @@
             class="dropdown-item"
             popovertarget="folder-dialog-<%= folder.id %>"
           >
-            ✏️ Rename
+            <i class="fa-solid fa-pen-to-square"></i> Edit
           </button>
           <form
             action="/folders/<%= folder.id %>/delete/<%= locals.openedFolderId %>"
@@ -34,7 +34,7 @@
                 );
               "
             >
-              🗑️ Delete
+              <i class="fa-solid fa-trash"></i> Delete
             </button>
           </form>
         </div>
@@ -81,7 +81,7 @@
   </div>
   <% } else { %>
   <div class="empty-state">
-    <div class="empty-icon">📂</div>
+    <div class="empty-icon"><i class="fa-solid fa-folder"></i></div>
     <p>No folders yet.</p>
   </div>
   <% } %>

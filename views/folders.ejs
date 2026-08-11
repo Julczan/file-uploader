@@ -21,14 +21,18 @@
     <div class="dashboard">
       <!-- Consistent Top Navigation -->
       <header class="topbar">
-        <a href="/" class="logo">☁️ JulczanDrive</a>
+        <a href="/" class="logo"
+          ><i class="fa-regular fa-cloud"></i> JulczanDrive</a
+        >
         <div class="user-menu">
           <% if (locals.currentUser) { %>
           <span class="greeting"
             ><strong><%= currentUser.username %></strong></span
           >
           <% } %>
-          <a href="/" class="btn btn-outline">Home</a>
+          <a href="/" class="btn btn-outline" aria-label="home"
+            ><i class="fa-solid fa-house"></i
+          ></a>
         </div>
       </header>
 
