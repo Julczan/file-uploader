@@ -129,9 +129,13 @@ exports.deleteFolderPost = async (req, res, next) => {
       const folderPath = `${userName}/${folder.title}`;
       const assets = await getAllAssetsInFolderCloud(folderPath);
 
+      console.log(assets);
+
       if (assets && assets.length > 0) {
         await Promise.all(
-          assets.map((asset) => deleteAssetsCloud(asset.public_id)),
+          assets.map((asset) =>
+            deleteAssetsCloud(asset.public_id, asset.resource_type),
+          ),
         );
       }
     }
