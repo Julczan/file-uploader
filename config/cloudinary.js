@@ -36,6 +36,7 @@ exports.createImageTagDetails = (publicId, version) => {
         quality: "auto",
       },
     ],
+    format: "jpg",
     version: version,
   });
 
