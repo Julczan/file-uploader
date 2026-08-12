@@ -1,9 +1,9 @@
-const DatauriParser = require("datauri/parser");
-const path = require("node:path");
-const parser = new DatauriParser();
+const fileType = require("file-type");
 
-exports.dataUri = (req) =>
-  parser.format(
-    path.extname(req.file.originalname).toString(),
-    req.file.buffer,
-  );
+exports.processUnknownBuffer = async (buffer) => {
+  const typeInfo = await fileType.fileTypeFromBuffer(buffer);
+
+  const mimeType = typeInfo ? typeInfo.mime : "application/octet-stream";
+
+  return `data:${mimeType};base64,${buffer.toString("base64")}`;
+};

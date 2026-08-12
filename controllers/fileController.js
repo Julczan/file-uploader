@@ -1,5 +1,5 @@
 const multerUploads = require("../config/multer");
-const { dataUri } = require("../config/dataUri");
+const { dataUri, processUnknownBuffer } = require("../config/dataUri");
 const {
   getFileDetialsCloud,
   createImageTagDetails,
@@ -127,7 +127,8 @@ exports.uploadFileFormPost = [
     }
 
     if (req.file) {
-      const filePath = dataUri(req).content;
+      const filePath = await processUnknownBuffer(req.file.buffer);
+
       let openedFolderTitle = "";
       if (openedFolderId) {
         openedFolderTitle = await getFolderTitleByIdDB(openedFolderId);
