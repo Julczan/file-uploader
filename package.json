@@ -12,7 +12,8 @@
     "dev": "node --env-file-if-exists=.env --watch app.js",
     "add": "git add .",
     "commit": "git commit",
-    "git": "npm run add && npm run commit"
+    "git": "npm run add && npm run commit",
+    "postinstall": "prisma generate"
   },
   "repository": {
     "type": "git",
