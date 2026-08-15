@@ -8,6 +8,7 @@ const {
   loginFormGet,
   clearFailMessages,
 } = require("../controllers/passportController");
+const { authenticateToken } = require("../config/passport-jwt");
 
 const indexRouter = Router();
 
@@ -24,5 +25,6 @@ indexRouter.get("/log-out", logOut);
 indexRouter.get("/", indexPageGet);
 indexRouter.get("/sign-up", signUpFormGet);
 indexRouter.post("/sign-up", signUpFormPost);
+indexRouter.get("/share/:token", authenticateToken);
 
 module.exports = indexRouter;

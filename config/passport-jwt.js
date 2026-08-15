@@ -1,19 +1,10 @@
 const jwt = require("jsonwebtoken");
-const passport = require("passport");
-var JwtStrategy = require("passport-jwt").Strategy,
-  ExtractJwt = require("passport-jwt").ExtractJwt;
-var opts = {};
-
-opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = process.env.JWT_SECRET;
-passport.use(
-  new JwtStrategy(opts, function (jwt_payload, done) {
-    console.log(jwt_payload);
-  }),
-);
+const { getItemsInFolderDB } = require("./folderQueries");
+const { getImageIconPlaceholder, createImageTagIcon } = require("./cloudinary");
 
 exports.signToken = async (req, res, next) => {
-  const payload = { name: "folderName" };
+  const { folderId } = req.params;
+  const payload = { folderId: folderId };
   const secret = process.env.JWT_SECRET;
 
   const token = jwt.sign(
@@ -21,27 +12,52 @@ exports.signToken = async (req, res, next) => {
       data: payload,
     },
     secret,
-    { expiresIn: "1h" },
+    { expiresIn: "5m" },
   );
 
-  next();
+  const host = req.get("host");
+
+  const link = "https://" + host + "/share/" + token;
+
+  res.render("shareFolder.ejs", { link: link, folderId: folderId });
 };
 
 exports.authenticateToken = (req, res, next) => {
-  const authHeader = req.headers["Authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-
-  console.log(token);
+  const { token } = req.params;
+  // const authHeader = req.headers["Authorization"];
+  // const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
     return res.status(401).json({ message: "Token missing" });
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (err) => {
+  jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
     if (err) {
       return res.status(403).json({ message: "Invalid or expired token" });
     }
 
-    next();
+    const folderId = Number(decoded.data.folderId);
+    const folderItems = await getItemsInFolderDB(folderId);
+
+    const files = folderItems.files;
+
+    for (const file of files) {
+      let imageTag = "";
+      if (file.resourceType === "raw") {
+        imageTag = getImageIconPlaceholder();
+      } else {
+        imageTag = createImageTagIcon(
+          file.name,
+          file.version,
+          file.resourceType,
+        );
+      }
+      file.imageTag = imageTag;
+    }
+
+    res.render("folders", {
+      folders: folderItems.childFolders,
+      files: files,
+    });
   });
 };

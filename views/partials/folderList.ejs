@@ -21,6 +21,9 @@
           >
             <i class="fa-solid fa-pen-to-square"></i> Edit
           </button>
+          <a href="/folders/<%= folder.id %>/share" class="dropdown-item">
+            <i class="fa-solid fa-share"></i> Share Folder
+          </a>
           <form
             action="/folders/<%= folder.id %>/delete/<%= locals.openedFolderId %>"
             method="post"
@@ -41,7 +44,6 @@
       </div>
     </div>
 
-    <!-- Update Folder Modal -->
     <dialog id="folder-dialog-<%= folder.id %>" class="modal" popover>
       <div class="modal-content">
         <h2 class="modal-title">Rename "<%= folder.title %>"</h2>

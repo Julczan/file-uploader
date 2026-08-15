@@ -18,12 +18,16 @@ folderRouter.post("/create/{:openedFolderId}", isAuth, createFolderPost);
 folderRouter.post(
   "/:folderId/update/{:openedFolderId}",
   isAuth,
+  isFolderAuthor,
   updateFolderPost,
 );
 folderRouter.post(
   "/:folderId/delete/{:openedFolderId}",
   isAuth,
+  isFolderAuthor,
   deleteFolderPost,
 );
+
+folderRouter.get("/:folderId/share", signToken);
 
 module.exports = folderRouter;

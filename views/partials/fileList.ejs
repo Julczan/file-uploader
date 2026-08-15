@@ -5,14 +5,12 @@
   <div class="file-grid">
     <% files.forEach((file) => { %>
     <div class="file-card">
-      <!-- Thumbnail Area -->
       <a href="/files/<%= file.id %>" class="file-thumbnail-link">
         <div class="file-thumbnail">
           <img src="<%= file.imageTag %>" alt="<%= file.name %> preview" />
         </div>
       </a>
 
-      <!-- File Details & Actions -->
       <div class="file-info">
         <a
           href="/files/<%= file.id %>"

@@ -17,10 +17,14 @@ fileRouter.get("/", getAllFilesWithoutFolder);
 
 fileRouter.get("/upload", isAuth, uploadFileFormGet);
 
-fileRouter.post("/upload/{:openedFolderId}", uploadFileFormPost);
+fileRouter.post("/upload/{:openedFolderId}", isAuth, uploadFileFormPost);
 
 fileRouter.get("/:fileId", isFileAuthor, getFileDetails);
 
-fileRouter.post("/:fileId/delete/{:openedFolderId}", deleteSingleFile);
+fileRouter.post(
+  "/:fileId/delete/{:openedFolderId}",
+  isFileAuthor,
+  deleteSingleFile,
+);
 
 module.exports = fileRouter;
