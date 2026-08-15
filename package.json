@@ -13,7 +13,7 @@
     "add": "git add .",
     "commit": "git commit",
     "git": "npm run add && npm run commit",
-    "postinstall": "prisma generate"
+    "build": "npx prisma generate"
   },
   "repository": {
     "type": "git",
