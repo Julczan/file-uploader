@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JulczanDrive - Personal Cloud Storage</title>
-    <!-- Modern sans-serif font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -19,7 +18,6 @@
   </head>
   <body>
     <% if (locals.currentUser) { %>
-    <!-- LOGGED IN: Dashboard Layout -->
     <div class="dashboard">
       <header class="topbar">
         <a href="/" class="logo"
@@ -46,19 +44,14 @@
       </main>
     </div>
 
-    <!-- Modals/Overlays -->
     <%- include("partials/errorDialog.ejs") %>
 
     <% } else { %>
-    <!-- LOGGED OUT: Landing Page Layout -->
     <div class="landing-container">
       <div class="landing-hero">
         <div class="hero-content">
-          <h1>Your files, perfectly organized.</h1>
-          <p>
-            Access your documents, photos, and folders from anywhere. Secure,
-            fast, and simple cloud storage built for you.
-          </p>
+          <h1>Perfectly organized files, kinda</h1>
+          <p>Storage for your files, easy access, store the way you like.</p>
         </div>
       </div>
 

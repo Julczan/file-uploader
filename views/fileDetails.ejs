@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= locals.file.display_name %> - JulczanDrive</title>
-    <!-- Modern sans-serif font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -18,7 +17,6 @@
     ></script>
   </head>
   <body>
-    <!-- Consistent Top Navigation -->
     <header class="topbar">
       <a href="/" class="logo"
         ><i class="fa-regular fa-cloud"></i> JulczanDrive</a
@@ -35,10 +33,8 @@
       1048576; %>
 
       <div class="file-details-card">
-        <!-- Left Column: Image Preview -->
         <div class="details-preview"><%- locals.imageTag %></div>
 
-        <!-- Right Column: File Information -->
         <div class="details-info">
           <h1 class="details-title"><%= locals.file.display_name %></h1>
 

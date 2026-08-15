@@ -7,6 +7,8 @@ const {
   updateFolderPost,
   deleteFolderPost,
 } = require("../controllers/folderController");
+const { signToken, authenticateToken } = require("../config/passport-jwt");
+const passport = require("passport");
 
 const folderRouter = Router();
 

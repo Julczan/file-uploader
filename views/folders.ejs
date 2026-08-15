@@ -3,8 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Folder View - MyDrive</title>
-    <!-- Modern sans-serif font -->
+    <title>Folder View - JulczanDrive</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -19,7 +18,6 @@
   </head>
   <body>
     <div class="dashboard">
-      <!-- Consistent Top Navigation -->
       <header class="topbar">
         <a href="/" class="logo"
           ><i class="fa-regular fa-cloud"></i> JulczanDrive</a
@@ -37,27 +35,22 @@
       </header>
 
       <main class="dashboard-content">
-        <!-- Sidebar for Actions -->
         <aside class="sidebar">
           <%- include("partials/createFolder.ejs") %> <%-
           include("partials/uploadFile.ejs") %>
         </aside>
 
-        <!-- Main Content Area -->
         <section class="main-stage">
-          <!-- Folder Navigation (Breadcrumbs) goes here -->
           <div class="navigation-section">
             <%- include("partials/folderNav.ejs") %>
           </div>
 
-          <!-- Lists -->
           <%- include("partials/folderList.ejs") %>
           <%- include("partials/fileList.ejs") %>
         </section>
       </main>
     </div>
 
-    <!-- Modals/Overlays -->
     <%- include("partials/errorDialog.ejs") %>
   </body>
 </html>

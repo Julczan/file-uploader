@@ -47,7 +47,7 @@ exports.signUpFormPost = [
   async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).render("signUpForm", {
+      return res.status(400).render("index", {
         errors: errors.array(),
       });
     }
