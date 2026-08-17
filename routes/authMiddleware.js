@@ -22,7 +22,14 @@ exports.isFolderAuthor = async (req, res, next) => {
   const folders = await getAllUserFoldersDB(userId);
   const files = await getAllFilesWithoutFolder(req.user);
 
-  const folderAuthor = await getFolderAuthor(Number(openedFolderId));
+  const { folderId } = req.params;
+
+  let folderAuthor = "";
+  if (openedFolderId) {
+    folderAuthor = await getFolderAuthor(Number(openedFolderId));
+  } else {
+    folderAuthor = await getFolderAuthor(Number(folderId));
+  }
 
   if (userId !== folderAuthor) {
     res.render("index", {
