@@ -16,11 +16,17 @@ exports.isAuth = async (req, res, next) => {
 };
 
 exports.isFolderAuthor = async (req, res, next) => {
-  const userId = req.user.id;
+  const user = req.user;
   const { openedFolderId } = req.params;
 
-  const folders = await getAllUserFoldersDB(userId);
-  const files = await getAllFilesWithoutFolder(req.user);
+  if (!user) {
+    return res.render("loginForm", {
+      messages: ["You are not authenticated. Please log in."],
+    });
+  }
+
+  const folders = await getAllUserFoldersDB(user.id);
+  const files = await getAllFilesWithoutFolder(user);
 
   const { folderId } = req.params;
 
@@ -31,7 +37,7 @@ exports.isFolderAuthor = async (req, res, next) => {
     folderAuthor = await getFolderAuthor(Number(folderId));
   }
 
-  if (userId !== folderAuthor) {
+  if (user.id !== folderAuthor) {
     res.render("index", {
       folders: folders,
       files: files,
@@ -44,15 +50,21 @@ exports.isFolderAuthor = async (req, res, next) => {
 };
 
 exports.isFileAuthor = async (req, res, next) => {
-  const userId = req.user.id;
+  const user = req.user;
   const { fileId } = req.params;
 
-  const folders = await getAllUserFoldersDB(userId);
-  const files = await getAllFilesWithoutFolder(req.user);
+  if (!user) {
+    return res.render("loginForm", {
+      messages: ["You are not authenticated. Please log in."],
+    });
+  }
+
+  const folders = await getAllUserFoldersDB(user.id);
+  const files = await getAllFilesWithoutFolder(user);
 
   const fileAuthor = await getFileAuthor(Number(fileId));
 
-  if (userId !== fileAuthor) {
+  if (user.id !== fileAuthor) {
     res.render("index", {
       folders: folders,
       files: files,

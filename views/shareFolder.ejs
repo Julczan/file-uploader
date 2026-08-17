@@ -64,6 +64,9 @@
                 value="<%= locals.link %>"
                 readonly
               />
+              <button class="btn btn-primary" onclick="copyLink()" id="copyBtn">
+                <i class="fa-regular fa-copy"></i> Copy
+              </button>
             </div>
           </div>
         </section>
@@ -71,5 +74,25 @@
     </div>
 
     <%- include("partials/errorDialog.ejs") %>
+
+    <script>
+      function copyLink() {
+        const linkInput = document.getElementById("shareLink");
+        const copyBtn = document.getElementById("copyBtn");
+
+        linkInput.select();
+        linkInput.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(linkInput.value).then(() => {
+          const originalHTML = copyBtn.innerHTML;
+          copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+          copyBtn.style.backgroundColor = "#10b981";
+
+          setTimeout(() => {
+            copyBtn.innerHTML = originalHTML;
+            copyBtn.style.backgroundColor = "";
+          }, 2000);
+        });
+      }
+    </script>
   </body>
 </html>

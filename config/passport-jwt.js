@@ -2,8 +2,7 @@ const jwt = require("jsonwebtoken");
 const { getItemsInFolderDB } = require("./folderQueries");
 const { getImageIconPlaceholder, createImageTagIcon } = require("./cloudinary");
 
-exports.signToken = async (req, res, next) => {
-  const { folderId } = req.params;
+exports.signToken = (duration, folderId, host) => {
   const payload = { folderId: folderId };
   const secret = process.env.JWT_SECRET;
 
@@ -12,20 +11,16 @@ exports.signToken = async (req, res, next) => {
       data: payload,
     },
     secret,
-    { expiresIn: "5m" },
+    { expiresIn: duration },
   );
-
-  const host = req.get("host");
 
   const link = "https://" + host + "/share/" + token;
 
-  res.render("shareFolder.ejs", { link: link, folderId: folderId });
+  return link;
 };
 
 exports.authenticateToken = (req, res, next) => {
   const { token } = req.params;
-  // const authHeader = req.headers["Authorization"];
-  // const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
     return res.status(401).json({ message: "Token missing" });

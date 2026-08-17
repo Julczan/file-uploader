@@ -25,6 +25,7 @@ const {
   getImageIconPlaceholder,
 } = require("../config/cloudinary");
 const { deleteFilesDB } = require("../config/fileQueries");
+const { signToken } = require("../config/passport-jwt");
 
 const validateFolder = [
   body("folderTitle")
@@ -204,4 +205,14 @@ exports.getItemsInFolder = async (req, res, next) => {
     files: folderItems.files,
     parentFolders: folderObject,
   });
+};
+
+exports.generateFolderLink = (req, res, next) => {
+  const { duration } = req.body;
+  const { folderId } = req.params;
+  const host = req.get("host");
+
+  const link = signToken(duration, folderId, host);
+
+  res.render("shareFolder.ejs", { link: link, folderId: folderId });
 };

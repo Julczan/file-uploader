@@ -6,8 +6,9 @@ const {
   getItemsInFolder,
   updateFolderPost,
   deleteFolderPost,
+  generateFolderLink,
 } = require("../controllers/folderController");
-const { signToken, authenticateToken } = require("../config/passport-jwt");
+const { authenticateToken } = require("../config/passport-jwt");
 const passport = require("passport");
 
 const folderRouter = Router();
@@ -28,6 +29,11 @@ folderRouter.post(
   deleteFolderPost,
 );
 
-folderRouter.get("/:folderId/share", signToken);
+folderRouter.post(
+  "/:folderId/share",
+  isAuth,
+  isFolderAuthor,
+  generateFolderLink,
+);
 
 module.exports = folderRouter;
